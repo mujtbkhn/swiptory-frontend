@@ -18,7 +18,7 @@ export const getUserIdFromToken = () => {
 export const createStory = async (slidesData) => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/stories/create`,
+      `${BACKEND_URL}/api/v1/stories/create`,
       { slides: slidesData },
       {
         headers: {
@@ -41,7 +41,7 @@ export const createStory = async (slidesData) => {
 export const fetchStory = async () => {
   try {
     const response = await axios.get(
-      `${BACKEND_URL}/stories/get?category=all`,
+      `${BACKEND_URL}/api/v1/stories/get?category=all`,
       {
         headers: {
           Authorization: `${token}`,
@@ -58,7 +58,7 @@ export const fetchStory = async () => {
 export const fetchStoryByCategory = async (category) => {
   try {
     const response = await axios.get(
-      `${BACKEND_URL}/stories/get?category=${category}`,
+      `${BACKEND_URL}/api/v1/stories/get?category=${category}`,
       {
         headers: {
           Authorization: `${token}`,
@@ -75,7 +75,7 @@ export const fetchStoryByCategory = async (category) => {
 
 export const fetchUserStories = async (userId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/stories/get?userId=${userId}`);
+    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get?userId=${userId}`);
     // console.log(response.data)
     return response.data;
   } catch (error) {
@@ -85,7 +85,7 @@ export const fetchUserStories = async (userId) => {
 export const getAllBookmarks = async () => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/stories/getBookmarks`,
+      `${BACKEND_URL}/api/v1/stories/getBookmarks`,
       {},
       {
         headers: {
@@ -103,7 +103,7 @@ export const getAllBookmarks = async () => {
 export const bookmark = async (slideId) => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/stories/bookmark/${slideId}`,
+      `${BACKEND_URL}/api/v1/stories/bookmark/${slideId}`,
       {},
       {
         headers: {
@@ -121,7 +121,7 @@ export const bookmark = async (slideId) => {
 export const like = async (slideId) => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/stories/like/${slideId}`,
+      `${BACKEND_URL}/api/v1/stories/like/${slideId}`,
       {},
       {
         headers: {
@@ -139,7 +139,7 @@ export const like = async (slideId) => {
 export const viewStoryByUserId = async (slideId, userId) => {
   try {
     const response = await axios.get(
-      `${BACKEND_URL}/stories/get/${slideId}?userId=${userId}`
+      `${BACKEND_URL}/api/v1/stories/get/${slideId}?userId=${userId}`
     );
 
     // console.log("userId is present".response.data);
@@ -152,7 +152,7 @@ export const viewStoryByUserId = async (slideId, userId) => {
 
 export const viewStory = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/stories/get/${slideId}`);
+    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
 
     // console.log("userId is present".response.data);
     return response.data;
@@ -164,7 +164,7 @@ export const viewStory = async (slideId) => {
 
 export const getStoryById = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/stories/get/${slideId}`);
+    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
     // console.log(response.data.story);
     return response.data.story;
   } catch (error) {
@@ -175,7 +175,7 @@ export const getStoryById = async (slideId) => {
 export const editStory = async (storyId, slides) => {
   try {
     const response = await axios.put(
-      `${BACKEND_URL}/stories/edit/${storyId}`,
+      `${BACKEND_URL}/api/v1/stories/edit/${storyId}`,
       { slides: slides },
       {
         headers: {
