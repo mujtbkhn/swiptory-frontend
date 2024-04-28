@@ -5,6 +5,16 @@ const BACKEND_URL = "https://swiptory-backend-q19a.onrender.com";
 
 const token = localStorage.getItem("token");
 
+export const getUserIdFromToken = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    // console.log("userId", decodedToken.userId)
+    return decodedToken.userId;
+  }
+  return null;
+};
+
 export const createStory = async (slidesData) => {
   try {
     const response = await axios.post(
@@ -65,7 +75,7 @@ export const fetchStoryByCategory = async (category) => {
 
 export const fetchUserStories = async (userId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/get?userId=${userId}`);
+    const response = await axios.get(`${BACKEND_URL}/stories/get?userId=${userId}`);
     // console.log(response.data)
     return response.data;
   } catch (error) {
@@ -75,7 +85,7 @@ export const fetchUserStories = async (userId) => {
 export const getAllBookmarks = async () => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/getBookmarks`,
+      `${BACKEND_URL}/stories/getBookmarks`,
       {},
       {
         headers: {
@@ -93,7 +103,7 @@ export const getAllBookmarks = async () => {
 export const bookmark = async (slideId) => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/bookmark/${slideId}`,
+      `${BACKEND_URL}/stories/bookmark/${slideId}`,
       {},
       {
         headers: {
@@ -111,7 +121,7 @@ export const bookmark = async (slideId) => {
 export const like = async (slideId) => {
   try {
     const response = await axios.post(
-      `${BACKEND_URL}/like/${slideId}`,
+      `${BACKEND_URL}/stories/like/${slideId}`,
       {},
       {
         headers: {
@@ -129,7 +139,7 @@ export const like = async (slideId) => {
 export const viewStoryByUserId = async (slideId, userId) => {
   try {
     const response = await axios.get(
-      `${BACKEND_URL}/get/${slideId}?userId=${userId}`
+      `${BACKEND_URL}/stories/get/${slideId}?userId=${userId}`
     );
 
     // console.log("userId is present".response.data);
@@ -142,7 +152,7 @@ export const viewStoryByUserId = async (slideId, userId) => {
 
 export const viewStory = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/get/${slideId}`);
+    const response = await axios.get(`${BACKEND_URL}/stories/get/${slideId}`);
 
     // console.log("userId is present".response.data);
     return response.data;
@@ -152,29 +162,20 @@ export const viewStory = async (slideId) => {
   }
 };
 
-export const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    // console.log("userId", decodedToken.userId)
-    return decodedToken.userId;
-  }
-  return null;
-};
-
 export const getStoryById = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/get/${slideId}`);
+    const response = await axios.get(`${BACKEND_URL}/stories/get/${slideId}`);
     // console.log(response.data.story);
     return response.data.story;
   } catch (error) {
     console.error("error fetching stories by Id", error);
   }
 };
+
 export const editStory = async (storyId, slides) => {
   try {
     const response = await axios.put(
-      `${BACKEND_URL}/edit/${storyId}`,
+      `${BACKEND_URL}/stories/edit/${storyId}`,
       { slides: slides },
       {
         headers: {
