@@ -4,7 +4,7 @@ const BACKEND_URL = "https://swiptory-backend-q19a.onrender.com";
 
 export const registerUser = async (username, password) => {
   try {
-    const response = await axios.post(`${BACKEND_URL}/register`, {
+    const response = await axios.post(`${BACKEND_URL}/auth/register`, {
       username,
       password,
     });
@@ -24,7 +24,7 @@ export const registerUser = async (username, password) => {
 
 export const loginUser = async (username, password) => {
   try {
-    const response = await axios.post(`${BACKEND_URL}/login`, {
+    const response = await axios.post(`${BACKEND_URL}/auth/login`, {
       username,
       password,
     });
