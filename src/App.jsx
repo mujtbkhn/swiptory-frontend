@@ -6,23 +6,28 @@ import Homepage from "./pages/Homepage/Homepage";
 import StoryPage from "./component/Story/StoryPage/StoryPage";
 import { Toaster } from "react-hot-toast";
 import StoryAdd from "./component/Story/StoryForm/StoryAdd";
-import { ErrorProvider } from "./component/contexts/ErrorContext.jsx";
 import { EditableProvider } from "./component/contexts/EditableContext.jsx";
+import YourStoryMob from "../src/component/Story/YourStoryMob.jsx";
+import { useSelector } from "react-redux";
+
 
 function App() {
+
+  const {isSmallScreen} = useSelector((state) => state.layout)
+
   return (
     <EditableProvider>
-      <ErrorProvider>
         <BrowserRouter>
           <Toaster position="top-center" />
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/test/:storyId" element={<StoryAdd />} />
             <Route path="/bookmarks" element={<Bookmark />} />
+            {isSmallScreen &&  <Route path="/your-story" element={<YourStoryMob />}/>}
+           
             <Route path="/view/:slideId" element={<StoryPageWrapper />} />
           </Routes>
         </BrowserRouter>
-      </ErrorProvider>
     </EditableProvider>
   );
 }

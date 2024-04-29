@@ -6,7 +6,6 @@ import { loginUser, registerUser } from "../../apis/auth";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import StoryAdd from "../Story/StoryForm/StoryAdd";
-import { useErrorContext } from "../contexts/ErrorContext";
 import { useEditableContext } from "../contexts/EditableContext";
 
 const Form = () => {
@@ -19,12 +18,11 @@ const Form = () => {
   const [password, setPassword] = useState("");
   const [hamburger, setHamburger] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { errorState, setErrorState } = useErrorContext();
   const [isError, setIsError] = useState("");
 
   const [isAddStoryClicked, setIsAddStoryClicked] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { editable, setEditableState, setEditStoryId, storyId } =
+  const { editable, setEditableState, setEditStoryId, storyId, errorState, setErrorState } =
     useEditableContext();
 
   useEffect(() => {
@@ -36,7 +34,7 @@ const Form = () => {
   const navigate = useNavigate();
 
   const handleCross = () => {
-    setEditableState(false)
+    setEditableState(false);
     setIsAddStoryClicked(false);
     setRegister(false);
     setUsername("");
@@ -111,6 +109,7 @@ const Form = () => {
       toast.success("Successfully Logged In");
       localStorage.setItem("username", username);
       setShowMobileMenu(false);
+      setErrorState(false)
     } catch (error) {
       console.error(error);
       setIsError(error);
@@ -122,7 +121,7 @@ const Form = () => {
   };
   const handleAddStory = () => {
     setIsAddStoryClicked(true);
-    setShowMobileMenu(false)
+    setShowMobileMenu(false);
   };
   const handleHamburger = () => {
     setHamburger((prev) => !prev);
@@ -147,7 +146,7 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (errorState) {
+    if (errorState === true) {
       setSignIn(true);
     }
   }, [errorState]);
@@ -203,7 +202,7 @@ const Form = () => {
                     </div>
                     <button
                       className="btn__add__story"
-                      onClick={handleAddStory}
+                      onClick={() => navigate("/your-story")}
                     >
                       Your Story
                     </button>

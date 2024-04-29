@@ -8,13 +8,12 @@ import {
   viewStoryByUserId,
 } from "../../../../apis/story";
 import toast from "react-hot-toast";
-import { ErrorProvider, useErrorContext } from "../../../contexts/ErrorContext";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
     return null; // Return null or any placeholder content if story is undefined
   }
-  console.log(story);
+  // console.log(story);
 
   const { slides, _id } = story;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -22,7 +21,6 @@ const ModalMobile = ({ story, onClose }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
 
-  const { errorState, setErrorState } = useErrorContext();
   const userId = getUserIdFromToken();
 
   // console.log("userId",userId)
@@ -51,7 +49,7 @@ const ModalMobile = ({ story, onClose }) => {
 
   const handleBookmark = async () => {
     if (!userId) {
-      setErrorState(true);
+      // setErrorState(true);
       return;
     }
     try {
@@ -64,7 +62,7 @@ const ModalMobile = ({ story, onClose }) => {
   };
   const handleLiked = async () => {
     if (!userId) {
-      setErrorState(true);
+      // setErrorState(true);
       return;
     }
     try {
@@ -103,7 +101,7 @@ const ModalMobile = ({ story, onClose }) => {
   };
 
   return (
-    <ErrorProvider>
+    <>
       <div className="modal-overlay">
         <div className="slide">
           <div className="story__top">
@@ -157,7 +155,7 @@ const ModalMobile = ({ story, onClose }) => {
           </div>
         </div>
       </div>
-    </ErrorProvider>
+    </>
   );
 };
 

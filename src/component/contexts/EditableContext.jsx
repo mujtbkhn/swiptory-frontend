@@ -9,6 +9,8 @@ export const useEditableContext = () => {
 export const EditableProvider = ({ children }) => {
   const [editable, setEditable] = useState(false);
   const [storyId, setStoryId] = useState(null);
+  const [errorState, setErrorState] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const setEditableState = (state) => {
     setEditable(state);
@@ -18,7 +20,16 @@ export const EditableProvider = ({ children }) => {
   };
   return (
     <EditableContext.Provider
-      value={{ editable, storyId, setEditableState, setEditStoryId }}
+      value={{
+        editable,
+        storyId,
+        setEditableState,
+        setEditStoryId,
+        errorState,
+        setErrorState,
+        selectedCategory,
+        setSelectedCategory,
+      }}
     >
       {children}
     </EditableContext.Provider>

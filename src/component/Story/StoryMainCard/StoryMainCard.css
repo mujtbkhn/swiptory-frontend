@@ -1,4 +1,3 @@
-
 .story__main__card {
   display: flex;
   flex-direction: column;
@@ -22,11 +21,12 @@
   height: 90%;
   object-fit: contain;
 }
-.story__card h2,p {
+.story__card h2,
+p {
   padding: 0 1rem;
   color: white;
 }
-.text__content{
+.text__content {
   position: absolute;
   bottom: 1rem;
 }
@@ -44,37 +44,44 @@
   flex-wrap: wrap;
   gap: 5rem;
 }
-.category__card{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 0 7rem;
+.category__card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 7rem;
 }
-.category__card__mobile{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 0 2rem;
+.category__card h2{
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.category__card__mobile {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 2rem;
 }
 .filter__sub__main__mobile::-webkit-scrollbar {
   display: none;
 }
-.category__card > h2{
+.category__card > h2 {
   margin: 2rem auto;
 }
 
-.category__card__main{
+.category__card__main {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
 }
-.filter__sub__main{
+.filter__sub__main {
   margin: 1.5rem 0;
   display: flex;
   justify-content: space-evenly;
   gap: 1rem;
 }
-.filter__sub__main__mobile{
+.filter__sub__main__mobile {
   margin: 1.5rem 0;
   display: flex;
   flex-direction: column;
@@ -104,16 +111,16 @@
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
 }
-.filter >img:active{
+.filter > img:active {
   border: 5px solid skyblue;
 }
 .filter > h1 {
   position: absolute;
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  color: white; 
-  z-index: 0; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  z-index: 0;
 }
 .filter__mobile > img {
   width: 100%;
@@ -124,22 +131,22 @@
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
 }
-.filter__mobile >img:active{
+.filter__mobile > img:active {
   border: 5px solid skyblue;
 }
 .filter__mobile > h1 {
   font-size: 1.5rem;
   position: absolute;
-  top: 35%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  color: white; 
-  z-index: 0; 
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  z-index: 0;
 }
-.see-more-btn{
+.see-more-btn {
   display: flex;
   justify-content: center;
 }
-.see-more-btn > button{
-  background-color: #FF7474;
+.see-more-btn > button {
+  background-color: #ff7474;
 }

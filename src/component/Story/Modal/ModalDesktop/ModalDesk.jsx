@@ -7,8 +7,8 @@ import {
   like,
   viewStoryByUserId,
 } from "../../../../apis/story";
-import { ErrorProvider, useErrorContext } from "../../../contexts/ErrorContext";
 import toast from "react-hot-toast";
+import { useEditableContext } from "../../../contexts/EditableContext";
 
 const ModalDesk = ({ story, onClose }) => {
   if (!story) {
@@ -21,10 +21,14 @@ const ModalDesk = ({ story, onClose }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
+  const {errorState, setErrorState} = useEditableContext()
 
-  const {errorState, setErrorState} = useErrorContext()
   const userId = getUserIdFromToken(); 
 
+  useEffect(() => {
+    // console.log(errorState); // Log errorState whenever it changes
+  }, [errorState]);
+  
   // console.log("userId",userId)
 
   useEffect(() => {
@@ -51,8 +55,10 @@ const ModalDesk = ({ story, onClose }) => {
 
   const handleBookmark = async () => {
     if (!userId) {
+      console.log("User is not authenticated"); // Add a console log for debugging
       setErrorState(true);
-      return;
+      // console.log(errorState)
+      // return;
     }
     try {
       await bookmark(story?._id);
@@ -64,7 +70,7 @@ const ModalDesk = ({ story, onClose }) => {
   };
   const handleLiked = async () => {
     if (!userId) {
-      setErrorState(true);
+      // setErrorState(true);
       return;
     }
     try {
@@ -108,7 +114,7 @@ const ModalDesk = ({ story, onClose }) => {
   // }, 5000);
 
   return (
-    <ErrorProvider>
+    <>
       <div className="modal-overlay">
         <div className="modal">
           <div className="modal-content">
@@ -186,7 +192,7 @@ const ModalDesk = ({ story, onClose }) => {
           </div>
         </div>
       </div>
-    </ErrorProvider>
+    </>
   );
 };
 

@@ -65,8 +65,8 @@ export const fetchStoryByCategory = async (category) => {
         },
       }
     );
-    // console.log(response.data);
-    return response.data.stories || [];
+    console.log(response.data.stories);
+    return response.data.stories ;
   } catch (error) {
     console.error(error);
     return [];
