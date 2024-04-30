@@ -8,6 +8,10 @@ import {
   viewStoryByUserId,
 } from "../../../../apis/story";
 import toast from "react-hot-toast";
+import previous from "../../../../assets/previous.png";
+import next from "../../../../assets/next.png";
+import share from "../../../../assets/share.png";
+import cross from "../../../../assets/cross.png";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
@@ -107,24 +111,24 @@ const ModalMobile = ({ story, onClose }) => {
           <div className="story__top">
             <img
               className="story__cross"
-              src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png"
+              src={cross}
               alt="multiply"
               onClick={onClose}
             />{" "}
             <img
               className="story__share"
-              src="https://img.icons8.com/external-creatype-outline-colourcreatype/64/FFFFFF/external-share-user-interface-creatype-outline-colourcreatype.png"
-              alt="external-share-user-interface-creatype-outline-colourcreatype"
+              src={share}
+              alt="share"
               onClick={handleView}
             />
           </div>
-          <div className="prev" onClick={goToPreviousSlide}></div>
+          <div className="prev1" onClick={goToPreviousSlide}></div>
 
           <img
             src={slides[currentSlideIndex].imageUrl}
             alt={`Slide ${currentSlideIndex + 1}`}
           />
-          <div className="next" onClick={goToNextSlide}></div>
+          <div className="next1" onClick={goToNextSlide}></div>
           <div className="slide__content">
             <h2>{slides[currentSlideIndex].title}</h2>
             <p>{slides[currentSlideIndex].description}</p>

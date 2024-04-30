@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./StoryMainCard.css";
+import "./Stories.css";
 import { fetchStoryByCategory } from "../../../apis/story";
 import StoryCard from "../StoryCard/StoryCard";
 import { useSelector } from "react-redux";
 import { useEditableContext } from "../../contexts/EditableContext";
 import UserStories from "../UserStories";
 import AllCategoryStories from "../AllCategoryStories";
-import Test from "../../Test";
+import Loader from "../../../utils/Loader";
 
-const StoryMainCard = () => {
+const Stories = () => {
   const [stories, setStories] = useState([]);
   const { selectedCategory, setSelectedCategory } = useEditableContext();
 
@@ -35,7 +35,7 @@ const StoryMainCard = () => {
   }, [selectedCategory]);
 
   if(stories.length === 0 && selectedCategory !== "all"){
-    return <Test />
+    return <Loader />
   }
 
   return (
@@ -69,4 +69,4 @@ const StoryMainCard = () => {
   );
 };
 
-export default StoryMainCard;
+export default Stories;

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getAllBookmarks } from "../../apis/story";
 import StoryCard from "../../component/Story/StoryCard/StoryCard";
-import "./Bookmark.css"
+import "./Bookmark.css";
 import Form from "../../component/Form/Form";
-import Test from "../../component/Test";
+import Loader from "../../utils/Loader";
 
 const Bookmark = () => {
   const [stories, setStories] = useState([]);
-  const [showAllUserStories, setShowAllUserStories] = useState(false)
-  const [showMoreBtn, setShowMoreBtn] = useState(false)
+  const [showAllUserStories, setShowAllUserStories] = useState(false);
+  const [showMoreBtn, setShowMoreBtn] = useState(false);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -34,31 +34,27 @@ const Bookmark = () => {
     }
   }, [showAllUserStories, stories]);
 
-  if(stories.length === 0){
-    return <Test />
+  if (stories.length === 0) {
+    return <Loader />;
   }
   return (
-    <div >
+    <div>
       <Form />
-      <h1 style={{display:"flex", justifyContent: "center", margin: "2rem auto"}}>Your Bookmarks</h1>
+      <h1>Your Bookmarks</h1>
       <div className="bookmark__main">
-
-      <div className="bookmark">
-        {stories
-        .slice(0, showAllUserStories ? stories.length : 4)
-        ?.map((story, index) => (
-          <StoryCard
-          key={index}
-          story={story}
-          />
-        ))}
-      </div>
-      <div className="see-more-btn">
-                {showMoreBtn && (
-                  <button onClick={handleShowMoreBtn}> See More</button>
-                )}
-              </div>
+        <div className="bookmark">
+          {stories
+            .slice(0, showAllUserStories ? stories.length : 4)
+            ?.map((story, index) => (
+              <StoryCard key={index} story={story} />
+            ))}
         </div>
+        <div className="see-more-btn">
+          {showMoreBtn && (
+            <button onClick={handleShowMoreBtn}> See More</button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

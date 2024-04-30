@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserStories, getUserIdFromToken } from "../../apis/story";
-import "./StoryMainCard/StoryMainCard.css";
+import "./Stories/Stories.css";
 import StoryCard from "./StoryCard/StoryCard";
 import Form from "../Form/Form";
 import { useSelector } from "react-redux";
-import Test from "../Test";
+import Loader from "../../utils/Loader";
 
 const YourStoryMob = () => {
   const [userStories, setUserStories] = useState("");
@@ -39,7 +39,7 @@ const YourStoryMob = () => {
   }, [showAllUserStories, userStories]);
 
   if(userStories.length === 0){
-    return <Test />
+    return <Loader />
   }
 
   return (

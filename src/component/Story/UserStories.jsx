@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchUserStories, getUserIdFromToken } from "../../apis/story";
 import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
-import "./StoryMainCard/StoryMainCard.css"
+import "./Stories/Stories.css"
 
 const UserStories = () => {
   const [userStories, setUserStories] = useState([]);

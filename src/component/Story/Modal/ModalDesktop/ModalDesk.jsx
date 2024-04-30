@@ -9,6 +9,10 @@ import {
 } from "../../../../apis/story";
 import toast from "react-hot-toast";
 import { useEditableContext } from "../../../contexts/EditableContext";
+import previous from "../../../../assets/previous.png";
+import next from "../../../../assets/next.png";
+import share from "../../../../assets/share.png";
+import cross from "../../../../assets/cross.png";
 
 const ModalDesk = ({ story, onClose }) => {
   if (!story) {
@@ -21,14 +25,14 @@ const ModalDesk = ({ story, onClose }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
-  const {errorState, setErrorState} = useEditableContext()
+  const { errorState, setErrorState } = useEditableContext();
 
-  const userId = getUserIdFromToken(); 
+  const userId = getUserIdFromToken();
 
   useEffect(() => {
     // console.log(errorState); // Log errorState whenever it changes
   }, [errorState]);
-  
+
   // console.log("userId",userId)
 
   useEffect(() => {
@@ -100,7 +104,7 @@ const ModalDesk = ({ story, onClose }) => {
 
       // Copy the URL to the clipboard
       await navigator.clipboard.writeText(storyURL);
-      toast.success("Link Copied to clipboard")
+      toast.success("Link Copied to clipboard");
       console.log("Link copied to clipboard:", storyURL);
     } catch (error) {
       console.error(error);
@@ -120,11 +124,8 @@ const ModalDesk = ({ story, onClose }) => {
           <div className="modal-content">
             <div className="back">
               <img
-                width="50"
-                height="50"
-                src="https://img.icons8.com/ios-filled/50/FFFFFF/back.png"
+                src={previous}
                 alt="Back"
-                
                 onClick={goToPreviousSlide}
               />
             </div>
@@ -132,14 +133,14 @@ const ModalDesk = ({ story, onClose }) => {
               <div className="story__top">
                 <img
                   className="story__cross"
-                  src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png"
+                  src={cross}
                   alt="multiply"
                   onClick={onClose}
                 />{" "}
                 <img
                   className="story__share__desk"
-                  src="https://img.icons8.com/external-creatype-outline-colourcreatype/64/FFFFFF/external-share-user-interface-creatype-outline-colourcreatype.png"
-                  alt="external-share-user-interface-creatype-outline-colourcreatype"
+                  src={share}
+                  alt="share"
                   onClick={handleView}
                 />
               </div>
@@ -148,12 +149,11 @@ const ModalDesk = ({ story, onClose }) => {
               <img
                 src={slides[currentSlideIndex].imageUrl}
                 alt={`Slide ${currentSlideIndex + 1}`}
-                />
-                {/* </div> */}
+              />
+              {/* </div> */}
               <div className="slide__content">
-
-              <h2>{slides[currentSlideIndex].title}</h2>
-              <p>{slides[currentSlideIndex].description}</p>
+                <h2>{slides[currentSlideIndex].title}</h2>
+                <p>{slides[currentSlideIndex].description}</p>
               </div>
               <div className="story__bottom">
                 <img
@@ -177,14 +177,12 @@ const ModalDesk = ({ story, onClose }) => {
                   alt="like--v1"
                   onClick={handleLiked}
                 />
-                <p style={{zIndex: "1"}}>{story.totalLikes}</p>
+                <p style={{ zIndex: "1" }}>{story.totalLikes}</p>
               </div>
             </div>
             <div className="next">
               <img
-                width="50"
-                height="50"
-                src="https://img.icons8.com/ios-filled/50/FFFFFF/forward.png"
+                src={next}
                 alt="Forward"
                 onClick={goToNextSlide}
               />

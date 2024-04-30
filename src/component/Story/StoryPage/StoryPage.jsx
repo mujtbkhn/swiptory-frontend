@@ -26,13 +26,15 @@ const StoryPage = ({ slideId }) => {
   }, [slideId]);
   return (
     <div>
-      {
-        isSmallScreen? <>
-        <ModalMobile story={stories} onClose={toggleModal} /></>: <>
-        <ModalDesk story={stories} onClose={toggleModal} />
+      {isSmallScreen ? (
+        <>
+          <ModalMobile story={stories} onClose={toggleModal} />
         </>
-      }
-      
+      ) : (
+        <>
+          <ModalDesk story={stories} onClose={toggleModal} />
+        </>
+      )}
     </div>
   );
 };

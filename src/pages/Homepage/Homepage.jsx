@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "../../component/Form/Form";
-import StoryMainCard from "../../component/Story/StoryMainCard/StoryMainCard";
+import Stories from "../../component/Story/Stories/Stories";
 import Categories from "../../component/Categories/Categories";
 
 const Homepage = () => {
@@ -9,8 +9,7 @@ const Homepage = () => {
       <div>
         <Form />
         <Categories />
-        <StoryMainCard />
-
+        <Stories />
       </div>
     </>
   );

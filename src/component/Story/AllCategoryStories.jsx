@@ -3,8 +3,8 @@ import { fetchStoryByCategory, fetchUserStories } from "../../apis/story";
 import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
 import { useEditableContext } from "../contexts/EditableContext";
-import "./StoryMainCard/StoryMainCard.css";
-import Test from "../Test";
+import "./Stories/Stories.css";
+import Loader from "../../utils/Loader";
 
 const AllCategoryStories = () => {
   const [stories, setStories] = useState([]);
@@ -49,7 +49,7 @@ const AllCategoryStories = () => {
   }, [showAllUserStories, stories]);
 
   if (stories.length === 0) {
-    return <Test />;
+    return <Loader />;
   }
 
   return (

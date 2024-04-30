@@ -132,7 +132,7 @@
   bottom: 1px;
   left: 300px;
 }
-.prev,.next{
+.prev1,.next1{
   position: absolute;
   top: 20%;
   height: 500px;
@@ -140,6 +140,6 @@
   /* border: 2px solid red; */
 }
 
-.next{
+.next1{
   right: 0;
 }
