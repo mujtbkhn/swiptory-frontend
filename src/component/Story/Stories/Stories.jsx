@@ -21,7 +21,7 @@ const Stories = () => {
         if (Array.isArray(fetchedStories)) {
           setStories(fetchedStories);
         } else {
-          console.error(
+          console.log(
             "Error: Invalid data format returned from API",
             fetchedStories
           );

@@ -10,23 +10,20 @@ import { useEditableContext } from "../../contexts/EditableContext.jsx";
 const StoryCard = ({ story, isUserStory }) => {
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [showModal, setShowModal] = useState(false);
-  const { setEditStoryId,editable, setEditableState } = useEditableContext(); // Destructure toggleEditable
+  const { setEditStoryId,editable, setEditableState, modal, setModal } = useEditableContext(); // Destructure toggleEditable
 
   const toggleModal = () => {
     setShowModal(!showModal);
+    setModal(true)
   };
   const firstSlide =
     story.slides && story.slides.length > 0 ? story.slides[0] : null;
 
   const handleEditBtn = (e) => {
-    // navigate(`/test/${story._id}`);
     e.stopPropagation()
     setEditStoryId(story._id);
-    setEditableState(true); // Toggle editable state
-    console.log(editable); // Log the updated value of editable
-    // console.log(storyId);
-
-    // console.log(story._id)
+    setEditableState(true); 
+    // console.log(editable); 
   };
 
   return (
@@ -47,7 +44,7 @@ const StoryCard = ({ story, isUserStory }) => {
           </>
         )}
       </div>
-      {showModal &&
+      {modal && showModal &&
         (isSmallScreen ? (
           <>
             {" "}

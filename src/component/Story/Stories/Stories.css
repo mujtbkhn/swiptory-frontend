@@ -32,7 +32,8 @@ p {
 }
 .story__cards {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  margin: 0 3rem;
 }
 
 .story__cards.small-screen {
@@ -51,7 +52,7 @@ p {
   gap: 1rem;
   margin: 0 7rem;
 }
-.category__card h2{
+.category__card h2 {
   display: flex;
   justify-content: center;
   margin: 0 auto;

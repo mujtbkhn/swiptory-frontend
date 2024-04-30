@@ -13,6 +13,7 @@ import previous from "../../../../assets/previous.png";
 import next from "../../../../assets/next.png";
 import share from "../../../../assets/share.png";
 import cross from "../../../../assets/cross.png";
+import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const ModalDesk = ({ story, onClose }) => {
   if (!story) {
@@ -25,15 +26,9 @@ const ModalDesk = ({ story, onClose }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
-  const { errorState, setErrorState } = useEditableContext();
+  const { errorState, setErrorState, modal, setModal } = useEditableContext();
 
   const userId = getUserIdFromToken();
-
-  useEffect(() => {
-    // console.log(errorState); // Log errorState whenever it changes
-  }, [errorState]);
-
-  // console.log("userId",userId)
 
   useEffect(() => {
     if (!story) return;
@@ -58,31 +53,34 @@ const ModalDesk = ({ story, onClose }) => {
   }, [_id]);
 
   const handleBookmark = async () => {
-    if (!userId) {
-      console.log("User is not authenticated"); // Add a console log for debugging
+    if (userId) {
+      try {
+        await bookmark(story?._id);
+        // console.log(story);
+        setIsBookmarked(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
       setErrorState(true);
+      setModal(false);
       // console.log(errorState)
+      // console.log("User is not authenticated"); // Add a console log for debugging
       // return;
-    }
-    try {
-      await bookmark(story?._id);
-      // console.log(story);
-      setIsBookmarked(true);
-    } catch (error) {
-      console.error(error);
     }
   };
   const handleLiked = async () => {
-    if (!userId) {
-      // setErrorState(true);
-      return;
-    }
-    try {
-      await like(story?._id);
-      // console.log(story);
-      setIsLiked(true);
-    } catch (error) {
-      console.error(error);
+    if (userId) {
+      try {
+        await like(story?._id);
+        // console.log(story);
+        setIsLiked(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setErrorState(true);
+      setModal(false);
     }
   };
 
@@ -111,6 +109,10 @@ const ModalDesk = ({ story, onClose }) => {
     }
   };
 
+  useEffect(() => {
+    console.log("Error state changed:", errorState);
+  }, [errorState]);
+
   // setTimeout(() => {
   //   setCurrentSlideIndex((prevIndex) =>
   //     prevIndex !== slides.length - 1 ? prevIndex + 1 : slides.length - 1
@@ -122,12 +124,9 @@ const ModalDesk = ({ story, onClose }) => {
       <div className="modal-overlay">
         <div className="modal">
           <div className="modal-content">
+            <ProgressBar slides={slides.length} iteration={currentSlideIndex}  />
             <div className="back">
-              <img
-                src={previous}
-                alt="Back"
-                onClick={goToPreviousSlide}
-              />
+              <img src={previous} alt="Back" onClick={goToPreviousSlide} />
             </div>
             <div className="slide__desk">
               <div className="story__top">
@@ -181,11 +180,7 @@ const ModalDesk = ({ story, onClose }) => {
               </div>
             </div>
             <div className="next">
-              <img
-                src={next}
-                alt="Forward"
-                onClick={goToNextSlide}
-              />
+              <img src={next} alt="Forward" onClick={goToNextSlide} />
             </div>
           </div>
         </div>

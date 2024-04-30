@@ -4,8 +4,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isSmallScreen: false,
-  isMediumScreen: false,
-  isLargeScreen: false,
 };
 
 const layoutSlice = createSlice({
@@ -13,10 +11,8 @@ const layoutSlice = createSlice({
   initialState,
   reducers: {
     setScreenSize(state, action) {
-      const { isSmallScreen, isLargeScreen } = action.payload;
+      const { isSmallScreen } = action.payload;
       state.isSmallScreen = isSmallScreen;
-
-      state.isLargeScreen = isLargeScreen;
     },
   },
 });

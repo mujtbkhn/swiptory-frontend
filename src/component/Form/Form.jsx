@@ -27,32 +27,30 @@ const Form = () => {
 
   const [isAddStoryClicked, setIsAddStoryClicked] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const {
-    editable,
-    setEditableState,
-    setEditStoryId,
-    storyId,
-    errorState,
-    setErrorState,
-  } = useEditableContext();
-
-  useEffect(() => {
-    if (editable === true) {
-      setIsAddStoryClicked(true);
-    }
-  }, [editable]);
+  const { errorState, setErrorState, setModal } = useEditableContext();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (errorState) {
+      console.log("errorState is true", errorState);
+      setSignIn(true);
+    }
+  }, [errorState]);
+
   const handleCross = () => {
-    setEditableState(false);
     setIsAddStoryClicked(false);
+    setErrorState(false);
+    // setModal(true);
+    console.log("errorState after setting to false:", errorState); // Debugging statement
     setRegister(false);
     setUsername("");
     setPassword("");
     setIsError("");
     setSignIn(false);
+    console.log("errorState after all state updates:", errorState); // Debugging statement
   };
+
   const handleCrossBig = () => {
     setShowMobileMenu(false);
     setIsAddStoryClicked(false);
@@ -90,6 +88,7 @@ const Form = () => {
       toast.success("Successfully Registered");
       localStorage.setItem("username", username);
       setShowMobileMenu(false);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +119,7 @@ const Form = () => {
       toast.success("Successfully Logged In");
       localStorage.setItem("username", username);
       setShowMobileMenu(false);
-      setErrorState(false);
+      window.location.reload();
     } catch (error) {
       console.error(error);
       setIsError(error);
@@ -147,6 +146,7 @@ const Form = () => {
     setUsername("");
     setHamburger(false);
     setShowMobileMenu(false);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -155,12 +155,6 @@ const Form = () => {
       setUsername(storedUsername);
     }
   }, []);
-
-  useEffect(() => {
-    if (errorState === true) {
-      setSignIn(true);
-    }
-  }, [errorState]);
 
   const handleHome = () => {
     navigate("/");
@@ -175,6 +169,7 @@ const Form = () => {
       setType("password");
     }
   };
+
   return (
     <div>
       <div className="navbar__main">
@@ -353,14 +348,8 @@ const Form = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
-              <span className="eye-span"
-                onClick={handleToggle}
-              >
-                <Icon
-                 className="eye-icon"
-                  icon={icon}
-                  size={25}
-                />
+              <span className="eye-span" onClick={handleToggle}>
+                <Icon className="eye-icon" icon={icon} size={25} />
               </span>
             </div>
             {isError && <p style={{ color: "black" }}>{isError}</p>}
@@ -402,14 +391,8 @@ const Form = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
-              <span className="eye-span"
-                onClick={handleToggle}
-              >
-                <Icon
-                 className="eye-icon"
-                  icon={icon}
-                  size={25}
-                />
+              <span className="eye-span" onClick={handleToggle}>
+                <Icon className="eye-icon" icon={icon} size={25} />
               </span>
             </div>
             {isError && <p style={{ color: "black" }}>{isError}</p>}

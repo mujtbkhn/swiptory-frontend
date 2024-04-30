@@ -16,7 +16,7 @@ const UserStories = () => {
       try {
         const userId = await getUserIdFromToken();
         if (!userId) {
-          console.error("User is not authenticated");
+          console.log("User is not authenticated");
           return;
         }
         if (userId) {

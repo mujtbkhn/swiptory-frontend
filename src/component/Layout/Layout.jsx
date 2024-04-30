@@ -11,7 +11,6 @@ const Layout = ({ children }) => {
     dispatch(
       setScreenSize({
         isSmallScreen: screenWidth < 768,
-        isLargeScreen: screenWidth >= 768,
       })
     );
   };

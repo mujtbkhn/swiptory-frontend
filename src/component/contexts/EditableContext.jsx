@@ -7,10 +7,11 @@ export const useEditableContext = () => {
 };
 
 export const EditableProvider = ({ children }) => {
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [storyId, setStoryId] = useState(null);
-  const [errorState, setErrorState] = useState(false);
+  const [errorState, setErrorState] = useState();
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [modal, setModal] = useState(true)
 
   const setEditableState = (state) => {
     setEditable(state);
@@ -27,6 +28,8 @@ export const EditableProvider = ({ children }) => {
         setEditStoryId,
         errorState,
         setErrorState,
+        modal,
+        setModal,
         selectedCategory,
         setSelectedCategory,
       }}

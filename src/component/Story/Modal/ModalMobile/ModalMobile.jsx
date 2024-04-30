@@ -12,6 +12,7 @@ import previous from "../../../../assets/previous.png";
 import next from "../../../../assets/next.png";
 import share from "../../../../assets/share.png";
 import cross from "../../../../assets/cross.png";
+import { useEditableContext } from "../../../contexts/EditableContext";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
@@ -24,6 +25,7 @@ const ModalMobile = ({ story, onClose }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
+  const {setModal, setErrorState} = useEditableContext()
 
   const userId = getUserIdFromToken();
 
@@ -52,32 +54,38 @@ const ModalMobile = ({ story, onClose }) => {
   }, [_id]);
 
   const handleBookmark = async () => {
-    if (!userId) {
-      // setErrorState(true);
-      return;
-    }
-    try {
-      await bookmark(story?._id);
-      // console.log(story);
-      setIsBookmarked(true);
-    } catch (error) {
-      console.error(error);
+    if (userId) {
+      try {
+        await bookmark(story?._id);
+        // console.log(story);
+        setIsBookmarked(true);
+      } catch (error) {
+        console.error(error);
+      }
+    }else{
+      
+      setErrorState(true);
+      setModal(false)
+      // console.log(errorState)
+      // console.log("User is not authenticated"); // Add a console log for debugging
+      // return;
     }
   };
   const handleLiked = async () => {
-    if (!userId) {
-      // setErrorState(true);
-      return;
-    }
-    try {
-      await like(story?._id);
-      // console.log(story);
-      setIsLiked(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    if(userId){
 
+      try {
+        await like(story?._id);
+        // console.log(story);
+        setIsLiked(true);
+      } catch (error) {
+        console.error(error);
+      }
+    }else{
+      setErrorState(true);
+      setModal(false)
+    }
+    };
   const goToPreviousSlide = () => {
     setCurrentSlideIndex((prevIndex) =>
       prevIndex === 0 ? slides.length - 1 : prevIndex - 1
