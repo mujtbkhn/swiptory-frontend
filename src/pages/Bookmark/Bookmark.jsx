@@ -15,7 +15,7 @@ const Bookmark = () => {
       try {
         const data = await getAllBookmarks();
         // console.log(data.bookmarks);
-        setStories(data.bookmarks);
+        setStories(data && data.bookmarks);
       } catch (error) {
         console.error(error);
       }
