@@ -3,6 +3,7 @@ import { getAllBookmarks } from "../../apis/story";
 import StoryCard from "../../component/Story/StoryCard/StoryCard";
 import "./Bookmark.css"
 import Form from "../../component/Form/Form";
+import Test from "../../component/Test";
 
 const Bookmark = () => {
   const [stories, setStories] = useState([]);
@@ -32,6 +33,10 @@ const Bookmark = () => {
       setShowMoreBtn(true);
     }
   }, [showAllUserStories, stories]);
+
+  if(stories.length === 0){
+    return <Test />
+  }
   return (
     <div >
       <Form />
@@ -41,7 +46,7 @@ const Bookmark = () => {
       <div className="bookmark">
         {stories
         .slice(0, showAllUserStories ? stories.length : 4)
-        .map((story, index) => (
+        ?.map((story, index) => (
           <StoryCard
           key={index}
           story={story}

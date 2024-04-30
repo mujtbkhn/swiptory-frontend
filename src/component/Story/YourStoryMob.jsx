@@ -4,6 +4,7 @@ import "./StoryMainCard/StoryMainCard.css";
 import StoryCard from "./StoryCard/StoryCard";
 import Form from "../Form/Form";
 import { useSelector } from "react-redux";
+import Test from "../Test";
 
 const YourStoryMob = () => {
   const [userStories, setUserStories] = useState("");
@@ -36,6 +37,10 @@ const YourStoryMob = () => {
       setShowMoreBtn(true);
     }
   }, [showAllUserStories, userStories]);
+
+  if(userStories.length === 0){
+    return <Test />
+  }
 
   return (
     <div>

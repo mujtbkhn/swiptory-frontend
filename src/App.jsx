@@ -5,10 +5,10 @@ import Bookmark from "./pages/Bookmark/Bookmark";
 import Homepage from "./pages/Homepage/Homepage";
 import StoryPage from "./component/Story/StoryPage/StoryPage";
 import { Toaster } from "react-hot-toast";
-import StoryAdd from "./component/Story/StoryForm/StoryAdd";
 import { EditableProvider } from "./component/contexts/EditableContext.jsx";
 import YourStoryMob from "../src/component/Story/YourStoryMob.jsx";
 import { useSelector } from "react-redux";
+import Test from "./component/Test.jsx";
 
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
           <Toaster position="top-center" />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/test/:storyId" element={<StoryAdd />} />
+            <Route path="/test" element={<Test />} />
             <Route path="/bookmarks" element={<Bookmark />} />
             {isSmallScreen &&  <Route path="/your-story" element={<YourStoryMob />}/>}
            

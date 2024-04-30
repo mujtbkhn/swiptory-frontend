@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
 import { useEditableContext } from "../contexts/EditableContext";
 import "./StoryMainCard/StoryMainCard.css";
+import Test from "../Test";
 
 const AllCategoryStories = () => {
   const [stories, setStories] = useState([]);
@@ -16,7 +17,7 @@ const AllCategoryStories = () => {
     const fetchData = async () => {
       try {
         const fetchedStories = await fetchStoryByCategory(selectedCategory);
-        console.log("API Response:", fetchedStories); // Log the API response
+        // console.log("API Response:", fetchedStories); // Log the API response
         if (typeof fetchedStories === "object" && fetchedStories !== null) {
           setStories(fetchedStories);
         } else {
@@ -29,7 +30,7 @@ const AllCategoryStories = () => {
         console.error("Error fetching stories:", error);
       }
     };
-
+    
     fetchData();
   }, [selectedCategory]);
 
@@ -46,6 +47,11 @@ const AllCategoryStories = () => {
       setShowMoreBtn(true);
     }
   }, [showAllUserStories, stories]);
+
+  if (stories.length === 0) {
+    return <Test />;
+  }
+
   return (
     <div>
       {Object.entries(stories).map(

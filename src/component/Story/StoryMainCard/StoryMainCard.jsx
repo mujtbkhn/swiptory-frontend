@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useEditableContext } from "../../contexts/EditableContext";
 import UserStories from "../UserStories";
 import AllCategoryStories from "../AllCategoryStories";
+import Test from "../../Test";
 
 const StoryMainCard = () => {
   const [stories, setStories] = useState([]);
@@ -33,6 +34,10 @@ const StoryMainCard = () => {
     fetchData();
   }, [selectedCategory]);
 
+  if(stories.length === 0 && selectedCategory !== "all"){
+    return <Test />
+  }
+
   return (
     <>
     {!isSmallScreen && selectedCategory === "all" && <UserStories />}
@@ -42,7 +47,7 @@ const StoryMainCard = () => {
         <div className="category_card_main">
           <div
             className={
-              isSmallScreen ? "category_cardmobile" : "category_card"
+              isSmallScreen ? "category_card__mobile" : "category_card"
             }
           >
             <h2>Top Stories from {selectedCategory}</h2>
