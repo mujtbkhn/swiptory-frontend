@@ -226,3 +226,12 @@ select.inputField {
 .post {
   background-color: #ff7373;
 }
+.eye-span{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.eye-icon{
+  position: absolute;
+  margin-right: 10;
+}

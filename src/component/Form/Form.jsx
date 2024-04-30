@@ -7,6 +7,9 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import StoryAdd from "../Story/StoryForm/StoryAdd";
 import { useEditableContext } from "../contexts/EditableContext";
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
 
 const Form = () => {
   const token = localStorage.getItem("token");
@@ -16,14 +19,22 @@ const Form = () => {
     localStorage.getItem("username") || ""
   );
   const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(eyeOff);
   const [hamburger, setHamburger] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isError, setIsError] = useState("");
 
   const [isAddStoryClicked, setIsAddStoryClicked] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { editable, setEditableState, setEditStoryId, storyId, errorState, setErrorState } =
-    useEditableContext();
+  const {
+    editable,
+    setEditableState,
+    setEditStoryId,
+    storyId,
+    errorState,
+    setErrorState,
+  } = useEditableContext();
 
   useEffect(() => {
     if (editable === true) {
@@ -109,7 +120,7 @@ const Form = () => {
       toast.success("Successfully Logged In");
       localStorage.setItem("username", username);
       setShowMobileMenu(false);
-      setErrorState(false)
+      setErrorState(false);
     } catch (error) {
       console.error(error);
       setIsError(error);
@@ -155,6 +166,15 @@ const Form = () => {
     navigate("/");
   };
 
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(eye);
+      setType("text");
+    } else {
+      setIcon(eyeOff);
+      setType("password");
+    }
+  };
   return (
     <div>
       <div className="navbar__main">
@@ -326,11 +346,22 @@ const Form = () => {
             <div className="form__fields">
               <h1>Password</h1>
               <input
-                type="password"
+                type={type}
+                name="password"
                 placeholder="Enter your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
+              <span className="eye-span"
+                onClick={handleToggle}
+              >
+                <Icon
+                 className="eye-icon"
+                  icon={icon}
+                  size={25}
+                />
+              </span>
             </div>
             {isError && <p style={{ color: "black" }}>{isError}</p>}
             <div className="form__btn">
@@ -365,11 +396,21 @@ const Form = () => {
             <div className="form__fields">
               <h1>Password</h1>
               <input
-                type="password"
+                type={type}
                 placeholder="Enter your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
+              <span className="eye-span"
+                onClick={handleToggle}
+              >
+                <Icon
+                 className="eye-icon"
+                  icon={icon}
+                  size={25}
+                />
+              </span>
             </div>
             {isError && <p style={{ color: "black" }}>{isError}</p>}
             <div className="form__btn">
