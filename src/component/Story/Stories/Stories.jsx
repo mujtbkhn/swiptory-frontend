@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Stories.css";
-import { fetchStoryByCategory, getUserIdFromToken } from "../../../apis/story";
+import { fetchStoryByCategory } from "../../../apis/story";
 import StoryCard from "../StoryCard/StoryCard";
 import { useSelector } from "react-redux";
 import { useEditableContext } from "../../contexts/EditableContext";
@@ -12,7 +12,7 @@ const Stories = () => {
   const [stories, setStories] = useState([]);
   const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
-  const { selectedCategory, setSelectedCategory } = useEditableContext();
+  const { selectedCategory } = useEditableContext();
 
   const { isSmallScreen } = useSelector((state) => state.layout);
 

@@ -7,7 +7,6 @@ import "./Stories/Stories.css";
 const UserStories = () => {
   const [userStories, setUserStories] = useState([]);
   const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
-  // const [showAllUserStories, setShowAllUserStories] = useState(false);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [userId, setUserId] = useState(false);

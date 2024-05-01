@@ -4,7 +4,6 @@ import "./Stories/Stories.css";
 import StoryCard from "./StoryCard/StoryCard";
 import Form from "../Form/Form";
 import { useSelector } from "react-redux";
-import Loader from "../../utils/Loader";
 
 const YourStoryMob = () => {
   const [userStories, setUserStories] = useState("");
@@ -12,6 +11,8 @@ const YourStoryMob = () => {
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const userId = getUserIdFromToken();
   const { isSmallScreen } = useSelector((state) => state.layout);
+
+
   useEffect(() => {
     const fetchUserStory = async () => {
       try {
@@ -38,10 +39,6 @@ const YourStoryMob = () => {
       setShowMoreBtn(false);
     }
   }, [userStories.length, visibleStoriesCount]);
-
-  // if (userStories.length === 0) {
-  //   return <Loader />;
-  // }
 
   return (
     <div>

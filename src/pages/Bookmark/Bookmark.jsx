@@ -3,7 +3,6 @@ import { getAllBookmarks } from "../../apis/story";
 import StoryCard from "../../component/Story/StoryCard/StoryCard";
 import "./Bookmark.css";
 import Form from "../../component/Form/Form";
-import Loader from "../../utils/Loader";
 
 const Bookmark = () => {
   const [stories, setStories] = useState([]);
@@ -34,9 +33,6 @@ const Bookmark = () => {
     }
   }, [stories?.length, visibleStoriesCount]);
 
-  // if (stories.length === 0) {
-  //   return <Loader />;
-  // }
   return (
     <div>
       <Form />

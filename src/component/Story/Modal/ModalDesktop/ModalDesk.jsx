@@ -1,6 +1,5 @@
-// Modal.js
 import React, { useEffect, useState } from "react";
-import "./ModalDesk.css"; // Importing the CSS file for styling
+import "./ModalDesk.css"; 
 import {
   bookmark,
   getUserIdFromToken,
@@ -17,14 +16,14 @@ import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const ModalDesk = ({ story, onClose }) => {
   if (!story) {
-    return null; // Return null or any placeholder content if story is undefined
+    return null;
   }
   const { slides, _id } = story;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
-  const { errorState, setErrorState, modal, setModal } = useEditableContext();
+  const { setErrorState, setModal } = useEditableContext();
 
   const userId = getUserIdFromToken();
 

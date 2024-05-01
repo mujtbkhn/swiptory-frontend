@@ -1,18 +1,17 @@
-// StoryCard.js
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ModalDesk from "../Modal/ModalDesktop/ModalDesk.jsx";
 import ModalMobile from "../Modal/ModalMobile/ModalMobile.jsx";
 import "./StoryCard.css";
-import { useNavigate } from "react-router-dom";
 import { useEditableContext } from "../../contexts/EditableContext.jsx";
 import edit from "../../../assets/edit.png";
 
 const StoryCard = ({ story, isUserStory }) => {
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [showModal, setShowModal] = useState(false);
-  const { setEditStoryId, editable, setEditableState, modal, setModal } =
+  const { setEditStoryId, setEditableState, modal, setModal } =
     useEditableContext();
+
   const toggleModal = () => {
     setShowModal(!showModal);
     setModal(true);

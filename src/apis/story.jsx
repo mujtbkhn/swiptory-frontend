@@ -62,7 +62,7 @@ export const fetchStoryByCategory = async (category) => {
         },
       }
     );
-    return response.data.stories ;
+    return response.data.stories;
   } catch (error) {
     console.error(error);
     return [];
@@ -71,7 +71,9 @@ export const fetchStoryByCategory = async (category) => {
 
 export const fetchUserStories = async (userId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get?userId=${userId}`);
+    const response = await axios.get(
+      `${BACKEND_URL}/api/v1/stories/get?userId=${userId}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -143,7 +145,9 @@ export const viewStoryByUserId = async (slideId, userId) => {
 
 export const viewStory = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
+    const response = await axios.get(
+      `${BACKEND_URL}/api/v1/stories/get/${slideId}`
+    );
 
     return response.data;
   } catch (error) {
@@ -154,7 +158,9 @@ export const viewStory = async (slideId) => {
 
 export const getStoryById = async (slideId) => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
+    const response = await axios.get(
+      `${BACKEND_URL}/api/v1/stories/get/${slideId}`
+    );
     return response.data.story;
   } catch (error) {
     console.error("error fetching stories by Id", error);

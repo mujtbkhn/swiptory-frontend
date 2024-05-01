@@ -3,7 +3,6 @@ import { createStory, editStory, getStoryById } from "../../../apis/story";
 import toast from "react-hot-toast";
 import StoryForm from "./StoryForm";
 import "./StoryForm.css";
-import { useParams } from "react-router-dom";
 import { useEditableContext } from "../../contexts/EditableContext";
 import { useSelector } from "react-redux";
 import validator from "validator";
@@ -12,8 +11,7 @@ const StoryAdd = ({ onCloseModal }) => {
   const [cross, setCross] = useState(false);
 
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { editable, storyId, setEditableState, setEditStoryId } =
-    useEditableContext();
+  const { storyId } = useEditableContext();
   const initialSlide = {
     title: "",
     description: "",
@@ -44,6 +42,7 @@ const StoryAdd = ({ onCloseModal }) => {
       fetchStoryData();
     }
   }, [storyId]);
+
   useEffect(() => {
     setCurrentSlide(currentSlide);
   }, [currentSlide]);
@@ -87,7 +86,6 @@ const StoryAdd = ({ onCloseModal }) => {
 
   const handleSubmit = async () => {
     try {
-      // Check validation in the slides
       const isValid = slides.some((slide, index) => {
         if (
           Object.keys(slide).length === 0 ||

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useEditableContext } from "../contexts/EditableContext";
 
 const Categories = () => {
-  const { selectedCategory, setSelectedCategory } = useEditableContext();
+  const { setSelectedCategory } = useEditableContext();
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [activeFilter, setActiveFilter] = useState(null);
 
@@ -24,7 +24,10 @@ const Categories = () => {
           className={isSmallScreen ? "filter__mobile" : "filter"}
           key={index}
           onClick={() => handleFilterClick(filter.id)}
-          style={{border: activeFilter === filter.id ? "5px solid skyblue" : "none", borderRadius: "18px"}}
+          style={{
+            border: activeFilter === filter.id ? "5px solid skyblue" : "none",
+            borderRadius: "18px",
+          }}
         >
           <img src={filter.background} alt={filter.name} />
           <h1>{filter.name}</h1>

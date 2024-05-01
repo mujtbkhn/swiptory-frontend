@@ -1,6 +1,6 @@
 .edit-btn {
   position: absolute;
-  bottom: 0px; /* Adjust this value to control the distance of the button below the card */
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -9,7 +9,6 @@
 .edit-btn > button {
   color: black;
 }
-/* Add a shadow to the bottom half of the button */
 .edit-btn > button::after {
   content: "";
   position: absolute;

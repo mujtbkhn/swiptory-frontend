@@ -1,6 +1,5 @@
-// Modal.js
 import React, { useEffect, useState } from "react";
-import "./ModalMobile.css"; // Importing the CSS file for styling
+import "./ModalMobile.css";
 import "../../ProgressBar/ProgressBar.css";
 import {
   bookmark,
@@ -9,8 +8,6 @@ import {
   viewStoryByUserId,
 } from "../../../../apis/story";
 import toast from "react-hot-toast";
-import previous from "../../../../assets/previous.png";
-import next from "../../../../assets/next.png";
 import share from "../../../../assets/share.png";
 import cross from "../../../../assets/cross.png";
 import { useEditableContext } from "../../../contexts/EditableContext";
@@ -65,6 +62,7 @@ const ModalMobile = ({ story, onClose }) => {
       setModal(false);
     }
   };
+  
   const handleLiked = async () => {
     if (userId) {
       try {
