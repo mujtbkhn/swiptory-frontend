@@ -8,7 +8,6 @@ export const registerUser = async (username, password) => {
       username,
       password,
     });
-    console.log(response.data);
     const { token } = response.data;
     localStorage.setItem("token", token);
     return response.data;
@@ -28,12 +27,14 @@ export const loginUser = async (username, password) => {
       username,
       password,
     });
-    console.log(response.data);
     const { token } = response.data;
     localStorage.setItem("token", token);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 400) {
+      throw new Error(error.response.data.message);
+    }
+    if (error.response && error.response.status === 401) {
       throw new Error(error.response.data.message);
     } else {
       console.error(error);

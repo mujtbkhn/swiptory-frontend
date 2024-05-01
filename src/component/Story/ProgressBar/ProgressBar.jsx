@@ -11,8 +11,6 @@ const ProgressBar = ({ slides, iteration }) => {
         }
     }, [slides]);
 
-    console.log(width)
-
     return (
         <div className='mainSlider'>
             {Array.from({ length: slides }, (_, index) => (

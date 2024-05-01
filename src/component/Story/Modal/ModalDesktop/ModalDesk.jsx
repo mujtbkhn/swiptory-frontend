@@ -19,8 +19,6 @@ const ModalDesk = ({ story, onClose }) => {
   if (!story) {
     return null; // Return null or any placeholder content if story is undefined
   }
-  // console.log(story)
-
   const { slides, _id } = story;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -56,7 +54,6 @@ const ModalDesk = ({ story, onClose }) => {
     if (userId) {
       try {
         await bookmark(story?._id);
-        // console.log(story);
         setIsBookmarked(true);
       } catch (error) {
         console.error(error);
@@ -64,16 +61,12 @@ const ModalDesk = ({ story, onClose }) => {
     } else {
       setErrorState(true);
       setModal(false);
-      // console.log(errorState)
-      // console.log("User is not authenticated"); // Add a console log for debugging
-      // return;
     }
   };
   const handleLiked = async () => {
     if (userId) {
       try {
         await like(story?._id);
-        // console.log(story);
         setIsLiked(true);
       } catch (error) {
         console.error(error);
@@ -99,25 +92,29 @@ const ModalDesk = ({ story, onClose }) => {
   const handleView = async () => {
     try {
       const storyURL = `${window.location.origin}/view/${story._id}`;
-
-      // Copy the URL to the clipboard
       await navigator.clipboard.writeText(storyURL);
-      toast.success("Link Copied to clipboard");
-      console.log("Link copied to clipboard:", storyURL);
+      toast.success("Link copied to clipboard", {
+        style: {
+          position: "relative",
+          top: "10rem",
+          color: "red",
+          fontSize: "1.5rem",
+        },
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
-  // useEffect(() => {
-  //   console.log("Error state changed:", errorState);
-  // }, [errorState]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) =>
+        prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
 
-  // setTimeout(() => {
-  //   setCurrentSlideIndex((prevIndex) =>
-  //     prevIndex !== slides.length - 1 ? prevIndex + 1 : slides.length - 1
-  //   );
-  // }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
@@ -134,7 +131,7 @@ const ModalDesk = ({ story, onClose }) => {
                   iteration={currentSlideIndex}
                 />
               </div>
-              
+
               <div className="story__top">
                 <img
                   className="story__cross"
@@ -151,13 +148,13 @@ const ModalDesk = ({ story, onClose }) => {
               </div>
               <div className="image-overlay" />
               <img
-                src={slides[currentSlideIndex].imageUrl}
+                src={slides[currentSlideIndex]?.imageUrl}
                 alt={`Slide ${currentSlideIndex + 1}`}
                 className="main__image"
               />
               <div className="slide__content">
-                <h2>{slides[currentSlideIndex].title}</h2>
-                <p>{slides[currentSlideIndex].description}</p>
+                <h2>{slides[currentSlideIndex]?.title}</h2>
+                <p>{slides[currentSlideIndex]?.description}</p>
               </div>
               <div className="story__bottom__mobile">
                 <img
@@ -181,7 +178,7 @@ const ModalDesk = ({ story, onClose }) => {
                   alt="like--v1"
                   onClick={handleLiked}
                 />
-                <p style={{ zIndex: "1" }}>{story.totalLikes}</p>
+                <p style={{ zIndex: "1" }}>{story?.totalLikes}</p>
               </div>
             </div>
             <div className="next">

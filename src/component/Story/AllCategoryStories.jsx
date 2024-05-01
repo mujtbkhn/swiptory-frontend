@@ -18,7 +18,6 @@ const AllCategoryStories = () => {
     const fetchData = async () => {
       try {
         const fetchedStories = await fetchStoryByCategory(selectedCategory);
-        // console.log("API Response:", fetchedStories); // Log the API response
         if (typeof fetchedStories === "object" && fetchedStories !== null) {
           setStories(fetchedStories);
 
@@ -91,7 +90,8 @@ const AllCategoryStories = () => {
                   .map((story, storyIndex) => (
                     <StoryCard key={storyIndex} story={story} />
                   ))}
-                {/* <div className="see-more-btn"> */}
+              </div>
+              <div className="see-more-btn">
                 {categoryStories.length > 4 &&
                   visibleStoriesCount[categoryName] <
                     categoryStories.length && (
@@ -99,7 +99,6 @@ const AllCategoryStories = () => {
                       See More
                     </button>
                   )}
-                {/* </div> */}
               </div>
             </div>
           </div>

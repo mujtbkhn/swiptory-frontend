@@ -136,8 +136,6 @@ button {
 }
 
 .cross {
-  width: 20px;
-  height: 20px;
   cursor: pointer;
 }
 .cross__big {
@@ -226,12 +224,21 @@ select.inputField {
 .post {
   background-color: #ff7373;
 }
-.eye-span{
+.eye-span-desk{
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.eye-icon{
-  position: absolute;
+.eye-icon-desk{
+  /* position: absolute; */
+  margin-right: 10;
+}
+.eye-span-mobile{
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+.eye-icon-mobile{
+  /* position: absolute; */
   margin-right: 10;
 }

@@ -18,9 +18,8 @@ import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
-    return null; // Return null or any placeholder content if story is undefined
+    return null; 
   }
-  // console.log(story);
 
   const { slides, _id } = story;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -30,8 +29,6 @@ const ModalMobile = ({ story, onClose }) => {
   const { setModal, setErrorState } = useEditableContext();
 
   const userId = getUserIdFromToken();
-
-  // console.log("userId",userId)
 
   useEffect(() => {
     if (!story) return;
@@ -59,7 +56,6 @@ const ModalMobile = ({ story, onClose }) => {
     if (userId) {
       try {
         await bookmark(story?._id);
-        // console.log(story);
         setIsBookmarked(true);
       } catch (error) {
         console.error(error);
@@ -67,16 +63,12 @@ const ModalMobile = ({ story, onClose }) => {
     } else {
       setErrorState(true);
       setModal(false);
-      // console.log(errorState)
-      // console.log("User is not authenticated"); // Add a console log for debugging
-      // return;
     }
   };
   const handleLiked = async () => {
     if (userId) {
       try {
         await like(story?._id);
-        // console.log(story);
         setIsLiked(true);
       } catch (error) {
         console.error(error);
@@ -101,16 +93,25 @@ const ModalMobile = ({ story, onClose }) => {
   const handleView = async () => {
     try {
       const storyURL = `${window.location.origin}/view/${story._id}`;
-
-      // Copy the URL to the clipboard
       await navigator.clipboard.writeText(storyURL);
-      toast.success("Link Copied to clipboard");
+      toast.success("Link Copied to clipboard", {
+        style: {position: "relative", top:"10rem", color: "red", fontSize: "1.5rem"}
+      });
 
-      console.log("Link copied to clipboard:", storyURL);
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) =>
+        prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>

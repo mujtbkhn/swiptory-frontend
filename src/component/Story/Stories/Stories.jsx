@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Stories.css";
-import { fetchStoryByCategory } from "../../../apis/story";
+import { fetchStoryByCategory, getUserIdFromToken } from "../../../apis/story";
 import StoryCard from "../StoryCard/StoryCard";
 import { useSelector } from "react-redux";
 import { useEditableContext } from "../../contexts/EditableContext";
@@ -54,7 +54,9 @@ const Stories = () => {
 
   return (
     <>
-      {!isSmallScreen && selectedCategory === "all" && <UserStories />}
+      { !isSmallScreen && selectedCategory === "all" && (
+        <UserStories />
+      )}
       {selectedCategory === "all" && <AllCategoryStories />}
       {selectedCategory !== "all" && (
         <div className="story_main_card">
@@ -77,12 +79,12 @@ const Stories = () => {
                     story={story}
                   />
                 ))}
+              </div>
                 <div className="see-more-btn">
                   {showMoreBtn && (
                     <button onClick={handleShowMoreBtn}> See More</button>
                   )}
                 </div>
-              </div>
             </div>
           </div>
         </div>

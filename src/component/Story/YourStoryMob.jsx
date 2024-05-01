@@ -8,7 +8,7 @@ import Loader from "../../utils/Loader";
 
 const YourStoryMob = () => {
   const [userStories, setUserStories] = useState("");
-  const [showAllUserStories, setShowAllUserStories] = useState(false);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const userId = getUserIdFromToken();
   const { isSmallScreen } = useSelector((state) => state.layout);
@@ -28,47 +28,58 @@ const YourStoryMob = () => {
   }, []);
 
   const handleShowMoreBtn = () => {
-    setShowAllUserStories(true);
-    setShowMoreBtn(false);
+    setVisibleStoriesCount((prevCount) => prevCount + 4);
   };
 
   useEffect(() => {
-    if (!showAllUserStories && userStories.length > 4) {
+    if (userStories.length > visibleStoriesCount) {
       setShowMoreBtn(true);
+    } else {
+      setShowMoreBtn(false);
     }
-  }, [showAllUserStories, userStories]);
+  }, [userStories.length, visibleStoriesCount]);
 
-  if(userStories.length === 0){
-    return <Loader />
-  }
+  // if (userStories.length === 0) {
+  //   return <Loader />;
+  // }
 
   return (
     <div>
       <Form />
-      {userId && userStories && isSmallScreen && (
-        <div className="story__main__card">
-          <div className="category__card__main">
-            <div className={"category__card__mobile"}>
-              <h2>Your Stories</h2>
-              <div className={`story__cards ${"small-screen"}`}>
-                {userStories
-                  .slice(0, showAllUserStories ? userStories.length : 4)
-                  .map((userStory, index) => (
-                    <StoryCard
-                      key={index}
-                      story={userStory}
-                      isUserStory={true}
-                    />
-                  ))}
-              </div>
-              <div className="see-more-btn">
-                {showMoreBtn && (
-                  <button onClick={handleShowMoreBtn}> See More</button>
-                )}
+      {userStories.length > 0 ? (
+        <>
+          {userId && userStories && isSmallScreen && (
+            <div className="story__main__card">
+              <div className="category__card__main">
+                <div className={"category__card__mobile"}>
+                  <h2>Your Stories</h2>
+                  <div className={`story__cards ${"small-screen"}`}>
+                    {userStories
+                      .slice(0, visibleStoriesCount)
+                      .map((userStory, index) => (
+                        <StoryCard
+                          key={index}
+                          story={userStory}
+                          isUserStory={true}
+                        />
+                      ))}
+                  </div>
+                  <div className="see-more-btn">
+                    {showMoreBtn && (
+                      <button onClick={handleShowMoreBtn}> See More</button>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
+      ) : (
+        <>
+          <h2 style={{ display: "flex", justifyContent: "center" }}>
+            No User Stories Available
+          </h2>
+        </>
       )}
     </div>
   );

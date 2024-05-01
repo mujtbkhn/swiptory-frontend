@@ -9,7 +9,6 @@ export const getUserIdFromToken = () => {
   const token = localStorage.getItem("token");
   if (token) {
     const decodedToken = jwtDecode(token);
-    // console.log("userId", decodedToken.userId)
     return decodedToken.userId;
   }
   return null;
@@ -26,7 +25,6 @@ export const createStory = async (slidesData) => {
         },
       }
     );
-    // console.log(response.data.Story.slides);
     return response.data.Story.slides;
   } catch (error) {
     if (error.response && error.response.status === 400) {
@@ -48,7 +46,6 @@ export const fetchStory = async () => {
         },
       }
     );
-    // console.log(response.data.stories);
     return response.data.stories;
   } catch (error) {
     console.error(error);
@@ -65,7 +62,6 @@ export const fetchStoryByCategory = async (category) => {
         },
       }
     );
-    // console.log(response.data.stories);
     return response.data.stories ;
   } catch (error) {
     console.error(error);
@@ -76,7 +72,6 @@ export const fetchStoryByCategory = async (category) => {
 export const fetchUserStories = async (userId) => {
   try {
     const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get?userId=${userId}`);
-    // console.log(response.data)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -93,7 +88,6 @@ export const getAllBookmarks = async () => {
         },
       }
     );
-    // console.log(response.data.bookmarks);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -111,7 +105,6 @@ export const bookmark = async (slideId) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -129,7 +122,6 @@ export const like = async (slideId) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -142,7 +134,6 @@ export const viewStoryByUserId = async (slideId, userId) => {
       `${BACKEND_URL}/api/v1/stories/get/${slideId}?userId=${userId}`
     );
 
-    // console.log("userId is present".response.data);
     return response.data;
   } catch (error) {
     console.error("error fetching stories", error);
@@ -154,7 +145,6 @@ export const viewStory = async (slideId) => {
   try {
     const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
 
-    // console.log("userId is present".response.data);
     return response.data;
   } catch (error) {
     console.error("error fetching stories", error);
@@ -165,7 +155,6 @@ export const viewStory = async (slideId) => {
 export const getStoryById = async (slideId) => {
   try {
     const response = await axios.get(`${BACKEND_URL}/api/v1/stories/get/${slideId}`);
-    // console.log(response.data.story);
     return response.data.story;
   } catch (error) {
     console.error("error fetching stories by Id", error);
@@ -183,7 +172,6 @@ export const editStory = async (storyId, slides) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error Editing Stories", error);

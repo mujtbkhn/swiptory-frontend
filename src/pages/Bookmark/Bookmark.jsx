@@ -7,14 +7,13 @@ import Loader from "../../utils/Loader";
 
 const Bookmark = () => {
   const [stories, setStories] = useState([]);
-  const [showAllUserStories, setShowAllUserStories] = useState(false);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
       try {
         const data = await getAllBookmarks();
-        // console.log(data.bookmarks);
         setStories(data && data.bookmarks);
       } catch (error) {
         console.error(error);
@@ -24,37 +23,44 @@ const Bookmark = () => {
   }, []);
 
   const handleShowMoreBtn = () => {
-    setShowAllUserStories(true);
-    setShowMoreBtn(false);
+    setVisibleStoriesCount((prevCount) => prevCount + 4);
   };
 
   useEffect(() => {
-    if (!showAllUserStories && stories.length > 4) {
+    if (stories?.length > visibleStoriesCount) {
       setShowMoreBtn(true);
+    } else {
+      setShowMoreBtn(false);
     }
-  }, [showAllUserStories, stories]);
+  }, [stories?.length, visibleStoriesCount]);
 
-  if (stories.length === 0) {
-    return <Loader />;
-  }
+  // if (stories.length === 0) {
+  //   return <Loader />;
+  // }
   return (
     <div>
       <Form />
-      <h1>Your Bookmarks</h1>
-      <div className="bookmark__main">
-        <div className="bookmark">
-          {stories
-            .slice(0, showAllUserStories ? stories.length : 4)
-            ?.map((story, index) => (
-              <StoryCard key={index} story={story} />
-            ))}
-        </div>
-        <div className="see-more-btn">
-          {showMoreBtn && (
-            <button onClick={handleShowMoreBtn}> See More</button>
-          )}
-        </div>
-      </div>
+      {stories?.length > 0 ? (
+        <>
+          <h1>Your Bookmarks</h1>
+          <div className="bookmark__main">
+            <div className="bookmark">
+              {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
+                <StoryCard key={index} story={story} />
+              ))}
+            </div>
+            <div className="see-more-btn">
+              {showMoreBtn && (
+                <button onClick={handleShowMoreBtn}> See More</button>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <h1>No Bookmarks Found</h1>
+        </>
+      )}
     </div>
   );
 };

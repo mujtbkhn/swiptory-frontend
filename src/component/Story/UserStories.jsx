@@ -17,7 +17,6 @@ const UserStories = () => {
       try {
         const userId = await getUserIdFromToken();
         if (!userId) {
-          console.log("User is not authenticated");
           return;
         }
         if (userId) {
@@ -25,7 +24,6 @@ const UserStories = () => {
         }
         const fetchUser = await fetchUserStories(userId);
         setUserStories(fetchUser.stories);
-        // console.log(userStories);
       } catch (error) {
         console.error("error fetching", error);
       }
@@ -46,46 +44,54 @@ const UserStories = () => {
   }, [userStories.length, visibleStoriesCount]);
   return (
     <div>
-      {userId && userStories && !isSmallScreen && (
-        <div className="story_main_card">
-          <div className="category_card_main">
-            <div
-              className={
-                isSmallScreen ? "category_card__mobile" : "category_card"
-              }
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  margin: " 1rem auto",
-                }}
-              >
-                <h2>Your Stories</h2>
-              </div>
-              <div
-                className={`story__cards ${
-                  isSmallScreen ? "small-screen" : "large-screen"
-                }`}
-              >
-                {userStories
-                  .slice(0, visibleStoriesCount)
-                  .map((userStory, index) => (
-                    <StoryCard
-                      key={index}
-                      story={userStory}
-                      isUserStory={true}
-                    />
-                  ))}
-              </div>
-              <div className="see-more-btn">
-                {showMoreBtn && (
-                  <button onClick={handleShowMoreBtn}> See More</button>
-                )}
+      {userStories.length > 0 ? (
+        <>
+          {userId && userStories && !isSmallScreen && (
+            <div className="story_main_card">
+              <div className="category_card_main">
+                <div
+                  className={
+                    isSmallScreen ? "category_card__mobile" : "category_card"
+                  }
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      margin: " 1rem auto",
+                    }}
+                  >
+                    <h2>Your Stories</h2>
+                  </div>
+                  <div
+                    className={`story__cards ${
+                      isSmallScreen ? "small-screen" : "large-screen"
+                    }`}
+                  >
+                    {userStories
+                      .slice(0, visibleStoriesCount)
+                      .map((userStory, index) => (
+                        <StoryCard
+                          key={index}
+                          story={userStory}
+                          isUserStory={true}
+                        />
+                      ))}
+                  </div>
+                  <div className="see-more-btn">
+                    {showMoreBtn && (
+                      <button onClick={handleShowMoreBtn}> See More</button>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
+      ) : (
+        <>
+          <h2 style={{display: "flex", justifyContent: "center"}}>No User Stories Available</h2>
+        </>
       )}
     </div>
   );

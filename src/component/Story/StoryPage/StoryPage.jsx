@@ -19,7 +19,6 @@ const StoryPage = ({ slideId }) => {
   const handleView = async () => {
     const data = await viewStory(slideId);
     setStories(data.story);
-    console.log(data.story);
   };
   useEffect(() => {
     handleView();

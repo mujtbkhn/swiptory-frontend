@@ -33,14 +33,12 @@ const Form = () => {
 
   useEffect(() => {
     if (errorState) {
-      console.log("errorState is true", errorState);
       setSignIn(true);
     }
   }, [errorState]);
 
   useEffect(() => {
     if (editable) {
-      console.log("editable is true", editable);
       setIsAddStoryClicked(true);
     }
   }, [editable]);
@@ -49,14 +47,11 @@ const Form = () => {
     setIsAddStoryClicked(false);
     setErrorState(false);
     setEditableState(false)
-    // setModal(true);
-    console.log("errorState after setting to false:", errorState); // Debugging statement
     setRegister(false);
     setUsername("");
     setPassword("");
     setIsError("");
     setSignIn(false);
-    console.log("errorState after all state updates:", errorState); // Debugging statement
   };
 
   const handleCrossBig = () => {
@@ -77,6 +72,10 @@ const Form = () => {
       if (!username) {
         setIsError("Username is missing");
         return;
+      }
+      if(username.trim().length < 5 ){
+        setIsError("Username must be greater than 5 letters")
+        return
       }
       if (!password) {
         setIsError("Password is missing");
@@ -116,6 +115,9 @@ const Form = () => {
         setIsError("Password is missing");
         return;
       }
+
+      setIsError("");
+
       const data = await loginUser(username, password);
       if (data.error) {
         setIsError(data.error);
@@ -130,7 +132,7 @@ const Form = () => {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      setIsError(error);
+      setIsError(error.message);
     }
   };
 
@@ -356,11 +358,11 @@ const Form = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
-              <span className="eye-span" onClick={handleToggle}>
-                <Icon className="eye-icon" icon={icon} size={25} />
+              <span className={isSmallScreen ? `eye-span-mobile` : `eye-span-desk`} onClick={handleToggle}>
+                <Icon className={isSmallScreen ? `eye-icon-mobile` : `eye-icon-desk`} icon={icon} size={25} />
               </span>
             </div>
-            {isError && <p style={{ color: "black" }}>{isError}</p>}
+            {isError && <p style={{ color: "red", margin: "0 auto" }}>{isError}</p>}
             <div className="form__btn">
               <button onClick={handleRegisterUser}>Register</button>
             </div>
@@ -398,19 +400,23 @@ const Form = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
-              />
-              <span className="eye-span" onClick={handleToggle}>
-                <Icon className="eye-icon" icon={icon} size={25} />
+                style={{position: "relative"}}
+                />
+              <span className={isSmallScreen ? `eye-span-mobile` : `eye-span-desk`} onClick={handleToggle}>
+                <Icon className={isSmallScreen ? `eye-icon-mobile` : `eye-icon-desk`} icon={icon} size={25} />
               </span>
             </div>
-            {isError && <p style={{ color: "black" }}>{isError}</p>}
+            {isError && <p style={{ color: "red", margin: "0 auto" }}>{isError}</p>}
             <div className="form__btn">
               <button onClick={handleSignInUser}>Log In</button>
             </div>
           </form>
         </div>
       )}
-      {isAddStoryClicked && <StoryAdd onCloseModal={handleCross} />}
+      {isAddStoryClicked &&
+      <div className="modal-container">
+       <StoryAdd onCloseModal={handleCross} />
+      </div>}
     </div>
   );
 };

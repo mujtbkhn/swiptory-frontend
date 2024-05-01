@@ -2,7 +2,7 @@ import all from "../assets/all.jpg"
 import food from "../assets/food.jpg"
 import health from "../assets/health.jpg"
 import travel from "../assets/travel.jpg"
-import movie from "../assets/movie.jpeg"
+import movie from "../assets/movie.jpg"
 import education from "../assets/education.jpg"
 
 export const Filters = 

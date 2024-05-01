@@ -6,6 +6,7 @@ import "./StoryForm.css";
 import { useParams } from "react-router-dom";
 import { useEditableContext } from "../../contexts/EditableContext";
 import { useSelector } from "react-redux";
+import validator from "validator";
 
 const StoryAdd = ({ onCloseModal }) => {
   const [cross, setCross] = useState(false);
@@ -13,8 +14,6 @@ const StoryAdd = ({ onCloseModal }) => {
   const { isSmallScreen } = useSelector((state) => state.layout);
   const { editable, storyId, setEditableState, setEditStoryId } =
     useEditableContext();
-  // const { storyId } = useParams();
-  // console.log(storyId);
   const initialSlide = {
     title: "",
     description: "",
@@ -37,7 +36,6 @@ const StoryAdd = ({ onCloseModal }) => {
           const fetchData = await getStoryById(storyId);
           if (fetchData && fetchData.slides) {
             setSlides(fetchData.slides);
-            // console.log(slides)
           }
         } catch (error) {
           console.error("error fetching story by id", error);
@@ -68,6 +66,8 @@ const StoryAdd = ({ onCloseModal }) => {
       setError("Please add a description");
     } else if (name === "title" && value == "") {
       setError("Please add a title");
+    } else if (name === "imageUrl" && !validator.isURL(value)) {
+      setError("Please enter a valid Image URL");
     } else {
       setError("");
     }
@@ -112,6 +112,9 @@ const StoryAdd = ({ onCloseModal }) => {
         return;
       }
 
+      if (error) {
+        return;
+      }
       if (slides.length < 3) {
         setError("Please add at least 3 slides");
         return;
@@ -122,7 +125,6 @@ const StoryAdd = ({ onCloseModal }) => {
 
       if (storyId) {
         const responseData = await editStory(storyId, slides);
-        console.log("story edited", responseData);
         if (responseData) {
           toast.success("Story edited successfully");
           onCloseModal();
@@ -132,7 +134,6 @@ const StoryAdd = ({ onCloseModal }) => {
         }
       } else {
         const responseData = await createStory(slides);
-        console.log(responseData);
         if (responseData) {
           toast.success("Story created successfully");
           onCloseModal();
@@ -142,9 +143,9 @@ const StoryAdd = ({ onCloseModal }) => {
         }
       }
     } catch (error) {
+      setError(error.message);
       console.log(error);
       toast.error("Error creating story");
-      // setLoading(false);
     }
   };
 
