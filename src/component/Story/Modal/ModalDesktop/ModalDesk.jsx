@@ -109,26 +109,32 @@ const ModalDesk = ({ story, onClose }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("Error state changed:", errorState);
-  }, [errorState]);
+  // useEffect(() => {
+  //   console.log("Error state changed:", errorState);
+  // }, [errorState]);
 
   // setTimeout(() => {
   //   setCurrentSlideIndex((prevIndex) =>
   //     prevIndex !== slides.length - 1 ? prevIndex + 1 : slides.length - 1
   //   );
-  // }, 5000);
+  // }, 1000);
 
   return (
     <>
       <div className="modal-overlay">
         <div className="modal">
           <div className="modal-content">
-            <ProgressBar slides={slides.length} iteration={currentSlideIndex}  />
             <div className="back">
               <img src={previous} alt="Back" onClick={goToPreviousSlide} />
             </div>
             <div className="slide__desk">
+              <div>
+                <ProgressBar
+                  slides={slides.length}
+                  iteration={currentSlideIndex}
+                />
+              </div>
+              
               <div className="story__top">
                 <img
                   className="story__cross"
@@ -143,18 +149,17 @@ const ModalDesk = ({ story, onClose }) => {
                   onClick={handleView}
                 />
               </div>
-              {/* <div> */}
-
+              <div className="image-overlay" />
               <img
                 src={slides[currentSlideIndex].imageUrl}
                 alt={`Slide ${currentSlideIndex + 1}`}
+                className="main__image"
               />
-              {/* </div> */}
               <div className="slide__content">
                 <h2>{slides[currentSlideIndex].title}</h2>
                 <p>{slides[currentSlideIndex].description}</p>
               </div>
-              <div className="story__bottom">
+              <div className="story__bottom__mobile">
                 <img
                   className="story__bookmark"
                   src={

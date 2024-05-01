@@ -10,8 +10,7 @@ import { useEditableContext } from "../../contexts/EditableContext.jsx";
 const StoryCard = ({ story, isUserStory }) => {
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [showModal, setShowModal] = useState(false);
-  const { setEditStoryId,editable, setEditableState, modal, setModal } = useEditableContext(); // Destructure toggleEditable
-
+  const { setEditStoryId,editable, setEditableState, modal, setModal } = useEditableContext(); 
   const toggleModal = () => {
     setShowModal(!showModal);
     setModal(true)
@@ -23,7 +22,7 @@ const StoryCard = ({ story, isUserStory }) => {
     e.stopPropagation()
     setEditStoryId(story._id);
     setEditableState(true); 
-    // console.log(editable); 
+    console.log(editable); 
   };
 
   return (

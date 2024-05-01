@@ -10,6 +10,8 @@ import Loader from "../../../utils/Loader";
 
 const Stories = () => {
   const [stories, setStories] = useState([]);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
+  const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { selectedCategory, setSelectedCategory } = useEditableContext();
 
   const { isSmallScreen } = useSelector((state) => state.layout);
@@ -34,38 +36,58 @@ const Stories = () => {
     fetchData();
   }, [selectedCategory]);
 
-  if(stories.length === 0 && selectedCategory !== "all"){
-    return <Loader />
+  const handleShowMoreBtn = () => {
+    setVisibleStoriesCount((prevCount) => prevCount + 4);
+  };
+
+  useEffect(() => {
+    if (stories.length > visibleStoriesCount) {
+      setShowMoreBtn(true);
+    } else {
+      setShowMoreBtn(false);
+    }
+  }, [stories.length, visibleStoriesCount]);
+
+  if (stories.length === 0 && selectedCategory !== "all") {
+    return <Loader />;
   }
 
   return (
     <>
-    {!isSmallScreen && selectedCategory === "all" && <UserStories />}
-    {selectedCategory === "all" && <AllCategoryStories />}
-    {selectedCategory !== "all" && (
-      <div className="story_main_card">
-        <div className="category_card_main">
-          <div
-            className={
-              isSmallScreen ? "category_card__mobile" : "category_card"
-            }
-          >
-            <h2>Top Stories from {selectedCategory}</h2>
+      {!isSmallScreen && selectedCategory === "all" && <UserStories />}
+      {selectedCategory === "all" && <AllCategoryStories />}
+      {selectedCategory !== "all" && (
+        <div className="story_main_card">
+          <div className="category_card_main">
             <div
-              className={`story__cards ${
-                isSmallScreen ? "small-screen" : "large-screen"
-              }`}
+              className={
+                isSmallScreen ? "category_card__mobile" : "category_card"
+              }
             >
-              {stories?.map((story, index) => (
-                <StoryCard key={index} className="story__card" story={story} />
-              ))}
+              <h2>Top Stories from {selectedCategory}</h2>
+              <div
+                className={`story__cards ${
+                  isSmallScreen ? "small-screen" : "large-screen"
+                }`}
+              >
+                {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
+                  <StoryCard
+                    key={index}
+                    className="story__card"
+                    story={story}
+                  />
+                ))}
+                <div className="see-more-btn">
+                  {showMoreBtn && (
+                    <button onClick={handleShowMoreBtn}> See More</button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
-  </>
-  
+      )}
+    </>
   );
 };
 

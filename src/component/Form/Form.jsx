@@ -27,7 +27,7 @@ const Form = () => {
 
   const [isAddStoryClicked, setIsAddStoryClicked] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { errorState, setErrorState, setModal } = useEditableContext();
+  const { errorState, setErrorState, setModal, editable, setEditableState } = useEditableContext();
 
   const navigate = useNavigate();
 
@@ -38,9 +38,17 @@ const Form = () => {
     }
   }, [errorState]);
 
+  useEffect(() => {
+    if (editable) {
+      console.log("editable is true", editable);
+      setIsAddStoryClicked(true);
+    }
+  }, [editable]);
+
   const handleCross = () => {
     setIsAddStoryClicked(false);
     setErrorState(false);
+    setEditableState(false)
     // setModal(true);
     console.log("errorState after setting to false:", errorState); // Debugging statement
     setRegister(false);

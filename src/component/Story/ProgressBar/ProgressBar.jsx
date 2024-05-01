@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import "./ProgressBar.css"
 const ProgressBar = ({ slides, iteration }) => {
     const [width, setWidth] = useState(100);
 

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { fetchUserStories, getUserIdFromToken } from "../../apis/story";
 import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
-import "./Stories/Stories.css"
+import "./Stories/Stories.css";
 
 const UserStories = () => {
   const [userStories, setUserStories] = useState([]);
-  const [showAllUserStories, setShowAllUserStories] = useState(false);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
+  // const [showAllUserStories, setShowAllUserStories] = useState(false);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
   const [userId, setUserId] = useState(false);
@@ -33,15 +34,16 @@ const UserStories = () => {
   }, []);
 
   const handleShowMoreBtn = () => {
-    setShowAllUserStories(true);
-    setShowMoreBtn(false);
+    setVisibleStoriesCount((prevStories) => prevStories + 4);
   };
 
   useEffect(() => {
-    if (!showAllUserStories && userStories.length > 4) {
+    if (userStories.length > visibleStoriesCount) {
       setShowMoreBtn(true);
+    } else {
+      setShowMoreBtn(false);
     }
-  }, [showAllUserStories, userStories]);
+  }, [userStories.length, visibleStoriesCount]);
   return (
     <div>
       {userId && userStories && !isSmallScreen && (
@@ -52,17 +54,22 @@ const UserStories = () => {
                 isSmallScreen ? "category_card__mobile" : "category_card"
               }
             >
-                <div style={{display: "flex", justifyContent: "center", margin: " 1rem auto"}}>
-
-              <h2>Your Stories</h2>
-                </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: " 1rem auto",
+                }}
+              >
+                <h2>Your Stories</h2>
+              </div>
               <div
                 className={`story__cards ${
                   isSmallScreen ? "small-screen" : "large-screen"
                 }`}
               >
                 {userStories
-                  .slice(0, showAllUserStories ? userStories.length : 4)
+                  .slice(0, visibleStoriesCount)
                   .map((userStory, index) => (
                     <StoryCard
                       key={index}

@@ -1,6 +1,7 @@
 // Modal.js
 import React, { useEffect, useState } from "react";
 import "./ModalMobile.css"; // Importing the CSS file for styling
+import "../../ProgressBar/ProgressBar.css";
 import {
   bookmark,
   getUserIdFromToken,
@@ -13,6 +14,7 @@ import next from "../../../../assets/next.png";
 import share from "../../../../assets/share.png";
 import cross from "../../../../assets/cross.png";
 import { useEditableContext } from "../../../contexts/EditableContext";
+import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
@@ -25,7 +27,7 @@ const ModalMobile = ({ story, onClose }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
-  const {setModal, setErrorState} = useEditableContext()
+  const { setModal, setErrorState } = useEditableContext();
 
   const userId = getUserIdFromToken();
 
@@ -62,18 +64,16 @@ const ModalMobile = ({ story, onClose }) => {
       } catch (error) {
         console.error(error);
       }
-    }else{
-      
+    } else {
       setErrorState(true);
-      setModal(false)
+      setModal(false);
       // console.log(errorState)
       // console.log("User is not authenticated"); // Add a console log for debugging
       // return;
     }
   };
   const handleLiked = async () => {
-    if(userId){
-
+    if (userId) {
       try {
         await like(story?._id);
         // console.log(story);
@@ -81,11 +81,11 @@ const ModalMobile = ({ story, onClose }) => {
       } catch (error) {
         console.error(error);
       }
-    }else{
+    } else {
       setErrorState(true);
-      setModal(false)
+      setModal(false);
     }
-    };
+  };
   const goToPreviousSlide = () => {
     setCurrentSlideIndex((prevIndex) =>
       prevIndex === 0 ? slides.length - 1 : prevIndex - 1
@@ -116,6 +116,9 @@ const ModalMobile = ({ story, onClose }) => {
     <>
       <div className="modal-overlay">
         <div className="slide">
+          <div>
+            <ProgressBar slides={slides.length} iteration={currentSlideIndex} />
+          </div>
           <div className="story__top">
             <img
               className="story__cross"
@@ -131,10 +134,11 @@ const ModalMobile = ({ story, onClose }) => {
             />
           </div>
           <div className="prev1" onClick={goToPreviousSlide}></div>
-
+          <div className="image-overlay" />
           <img
             src={slides[currentSlideIndex].imageUrl}
             alt={`Slide ${currentSlideIndex + 1}`}
+            className="main__image"
           />
           <div className="next1" onClick={goToNextSlide}></div>
           <div className="slide__content">
@@ -152,7 +156,6 @@ const ModalMobile = ({ story, onClose }) => {
               alt="bookmark-ribbon"
               onClick={handleBookmark}
             />
-
             <img
               className="story__liked"
               src={

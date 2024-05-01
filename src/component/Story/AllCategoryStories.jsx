@@ -9,6 +9,7 @@ import Loader from "../../utils/Loader";
 const AllCategoryStories = () => {
   const [stories, setStories] = useState([]);
   const [showAllUserStories, setShowAllUserStories] = useState(false);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState({});
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
   const { selectedCategory, setSelectedCategory } = useEditableContext();
@@ -20,6 +21,12 @@ const AllCategoryStories = () => {
         // console.log("API Response:", fetchedStories); // Log the API response
         if (typeof fetchedStories === "object" && fetchedStories !== null) {
           setStories(fetchedStories);
+
+          const initialVisibleCount = {};
+          Object.keys(fetchedStories).forEach(
+            (categoryName) => (initialVisibleCount[categoryName] = 4)
+          );
+          setVisibleStoriesCount(initialVisibleCount);
         } else {
           console.error(
             "Error: Invalid data format returned from API",
@@ -30,23 +37,26 @@ const AllCategoryStories = () => {
         console.error("Error fetching stories:", error);
       }
     };
-    
+
     fetchData();
   }, [selectedCategory]);
 
-  const handleShowMoreBtn = () => {
-    setShowAllUserStories(true);
-    setShowMoreBtn(false);
+  const handleShowMoreBtn = (categoryName) => {
+    setVisibleStoriesCount((prevCount) => ({
+      ...prevCount,
+      [categoryName]: prevCount[categoryName] + 4,
+    }));
   };
 
   useEffect(() => {
     if (
-      !showAllUserStories &&
-      Object.values(stories).flatMap((arr) => arr).length > 4
+      Object.values(stories).flatMap((arr) => arr).length > visibleStoriesCount
     ) {
       setShowMoreBtn(true);
+    } else {
+      setShowMoreBtn(false);
     }
-  }, [showAllUserStories, stories]);
+  }, [stories, visibleStoriesCount]);
 
   if (stories.length === 0) {
     return <Loader />;
@@ -62,7 +72,13 @@ const AllCategoryStories = () => {
                 isSmallScreen ? "category_card__mobile" : "category_card"
               }
             >
-              <div style={{ display: "flex", justifyContent: "center", margin: " 1rem auto"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: " 1rem auto",
+                }}
+              >
                 <h2>Top Stories About {categoryName}</h2>
               </div>
               <div
@@ -70,9 +86,20 @@ const AllCategoryStories = () => {
                   isSmallScreen ? "small-screen" : "large-screen"
                 }`}
               >
-                {categoryStories.map((story, storyIndex) => (
-                  <StoryCard key={storyIndex} story={story} />
-                ))}
+                {categoryStories
+                  .slice(0, visibleStoriesCount[categoryName])
+                  .map((story, storyIndex) => (
+                    <StoryCard key={storyIndex} story={story} />
+                  ))}
+                {/* <div className="see-more-btn"> */}
+                {categoryStories.length > 4 &&
+                  visibleStoriesCount[categoryName] <
+                    categoryStories.length && (
+                    <button onClick={() => handleShowMoreBtn(categoryName)}>
+                      See More
+                    </button>
+                  )}
+                {/* </div> */}
               </div>
             </div>
           </div>
