@@ -25,7 +25,7 @@
   justify-content: center;
   margin: 0 auto;
   width: 90%;
-  height: 55%;
+  height: 65%;
   /* padding: 2rem; */
   border: 1px solid #ccc;
   border-radius: 1rem;
@@ -72,7 +72,7 @@
 }
 .story_close_slides {
   position: absolute;
-  top: 2.5rem;
+  top: 2rem;
 }
 .cross {
   position: absolute;
