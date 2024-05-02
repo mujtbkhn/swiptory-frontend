@@ -16,7 +16,6 @@
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.26);
   background-color: white;
   z-index: 2;
-  
 }
 .story_form_mobile {
   display: flex;
@@ -70,9 +69,16 @@
   box-shadow: 0px 4px 15px 0px #0000001a;
   position: relative;
 }
-.story_close_slides {
-  position: absolute;
-  top: 1.5rem;
+.active_slide_box {
+  padding: 1.5rem;
+  border-radius: 10%;
+  text-align: center;
+  margin-right: 1rem;
+  display: inline-flex;
+  justify-content: center;
+  box-shadow: 0px 4px 15px 0px #0000001a;
+  position: relative;
+  border: 2px solid skyblue;
 }
 .cross {
   position: absolute;
@@ -189,6 +195,15 @@
     font-size: 0.8rem;
     margin-right: 0.5rem;
     margin-bottom: 0.8rem;
+  }
+  .active_slide_box {
+    padding: 0.2rem;
+    border-radius: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.8rem;
+    border: 2px solid skyblue;
   }
   .buttons {
     position: absolute;
