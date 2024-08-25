@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const BACKEND_URL = "https://swiptory-backend-q19a.onrender.com";
+// const BACKEND_URL = "http://localhost:3000";
 
 const token = localStorage.getItem("token");
 

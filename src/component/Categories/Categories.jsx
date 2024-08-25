@@ -29,7 +29,7 @@ const Categories = () => {
             borderRadius: "18px",
           }}
         >
-          <img src={filter.background} alt={filter.name} />
+          <img src={filter.background} alt={filter.name} loading="lazy"/>
           <h1>{filter.name}</h1>
         </div>
       ))}

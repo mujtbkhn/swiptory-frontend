@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BACKEND_URL = "https://swiptory-backend-q19a.onrender.com";
+// const BACKEND_URL = "http://localhost:3000";
 
 export const registerUser = async (username, password) => {
   try {

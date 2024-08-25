@@ -184,3 +184,12 @@ p {
     padding: 1rem 2rem;
   }
 }
+
+.stories_shimmer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0 auto;
+  align-items: center;
+}

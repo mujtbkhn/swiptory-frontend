@@ -190,7 +190,7 @@ const StoryAdd = ({ onCloseModal }) => {
                 setCurrentSlide(index);
                 handleFilterClick(slide._id);
               }}
-            > 
+            >
               slide {index + 1}
             </div>
 
@@ -219,7 +219,7 @@ const StoryAdd = ({ onCloseModal }) => {
         >
           Add +
         </div>
-        {}
+        { }
       </div>
       <svg
         className={"story_close"}

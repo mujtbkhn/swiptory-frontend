@@ -7,6 +7,7 @@ import { useEditableContext } from "../../contexts/EditableContext";
 import UserStories from "../UserStories";
 import AllCategoryStories from "../AllCategoryStories";
 import Loader from "../../../utils/Loader";
+import Shimmer from "../Shimmer/Shimmer";
 
 const Stories = () => {
   const [stories, setStories] = useState([]);
@@ -49,12 +50,18 @@ const Stories = () => {
   }, [stories.length, visibleStoriesCount]);
 
   if (stories.length === 0 && selectedCategory !== "all") {
-    return <Loader />;
+    return (
+      <div className="stories_shimmer">
+        {[...Array(4)].map((_, index) => (
+          <Shimmer key={index} />
+        ))}
+      </div>
+    )
   }
 
   return (
     <>
-      { !isSmallScreen && selectedCategory === "all" && (
+      {!isSmallScreen && selectedCategory === "all" && (
         <UserStories />
       )}
       {selectedCategory === "all" && <AllCategoryStories />}
@@ -68,9 +75,8 @@ const Stories = () => {
             >
               <h2>Top Stories from {selectedCategory}</h2>
               <div
-                className={`story__cards ${
-                  isSmallScreen ? "small-screen" : "large-screen"
-                }`}
+                className={`story__cards ${isSmallScreen ? "small-screen" : "large-screen"
+                  }`}
               >
                 {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
                   <StoryCard
@@ -80,11 +86,11 @@ const Stories = () => {
                   />
                 ))}
               </div>
-                <div className="see-more-btn">
-                  {showMoreBtn && (
-                    <button onClick={handleShowMoreBtn}> See More</button>
-                  )}
-                </div>
+              <div className="see-more-btn">
+                {showMoreBtn && (
+                  <button onClick={handleShowMoreBtn}> See More</button>
+                )}
+              </div>
             </div>
           </div>
         </div>

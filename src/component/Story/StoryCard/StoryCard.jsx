@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ModalDesk from "../Modal/ModalDesktop/ModalDesk.jsx";
 import ModalMobile from "../Modal/ModalMobile/ModalMobile.jsx";
@@ -11,6 +11,31 @@ const StoryCard = ({ story, isUserStory }) => {
   const [showModal, setShowModal] = useState(false);
   const { setEditStoryId, setEditableState, modal, setModal } =
     useEditableContext();
+
+  const [inView, setInView] = useState(false);
+  const ref = useRef();
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           setInView(true);
+  //           observer.unobserve(entry.target); // Stop observing once the element is in view
+  //         }
+  //       });
+  //     },
+  //     {
+  //       threshold: 0.1, // Adjust this threshold as needed
+  //     }
+  //   );
+  //   if (ref?.current) {
+  //     observer.observe(ref.current);
+  //   }
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -26,6 +51,7 @@ const StoryCard = ({ story, isUserStory }) => {
   };
 
   return (
+
     <>
       <div className="story__card" onClick={toggleModal}>
         {firstSlide && (
@@ -39,7 +65,7 @@ const StoryCard = ({ story, isUserStory }) => {
             {isUserStory && (
               <div onClick={handleEditBtn} className="edit-btn">
                 <div style={{ position: "absolute", left: "1rem" }}>
-                  <img src={edit} alt="" />
+                  <img src={edit} alt="" loading="lazy" />
                 </div>
                 <button>Edit</button>
               </div>
@@ -60,7 +86,7 @@ const StoryCard = ({ story, isUserStory }) => {
           </>
         ))}
     </>
-  );
+  )
 };
 
 export default StoryCard;
