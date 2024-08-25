@@ -15,7 +15,7 @@ import ProgressBar from "../../ProgressBar/ProgressBar";
 
 const ModalMobile = ({ story, onClose }) => {
   if (!story) {
-    return null; 
+    return null;
   }
 
   const { slides, _id } = story;
@@ -51,10 +51,14 @@ const ModalMobile = ({ story, onClose }) => {
 
   const handleBookmark = async () => {
     if (userId) {
+      const newBookmarkedStatus = !isBookmarked;
+      setIsBookmarked(newBookmarkedStatus);
+
       try {
         await bookmark(story?._id);
-        setIsBookmarked(true);
+        // Optionally, you can fetch the updated data here
       } catch (error) {
+        setIsBookmarked(!newBookmarkedStatus); // Revert if API fails
         console.error(error);
       }
     } else {
@@ -62,13 +66,19 @@ const ModalMobile = ({ story, onClose }) => {
       setModal(false);
     }
   };
-  
+
   const handleLiked = async () => {
     if (userId) {
+      const newLikedStatus = !isLiked;
+      setIsLiked(newLikedStatus);
+      setTotalLikes((prev) => prev + (newLikedStatus ? 1 : -1));
+
       try {
         await like(story?._id);
-        setIsLiked(true);
+        // Optionally, fetch the updated data here
       } catch (error) {
+        setIsLiked(!newLikedStatus); // Revert if API fails
+        setTotalLikes((prev) => prev - (newLikedStatus ? 1 : -1)); // Revert total likes
         console.error(error);
       }
     } else {
@@ -76,6 +86,7 @@ const ModalMobile = ({ story, onClose }) => {
       setModal(false);
     }
   };
+
   const goToPreviousSlide = () => {
     setCurrentSlideIndex((prevIndex) =>
       prevIndex === 0 ? slides.length - 1 : prevIndex - 1
@@ -93,7 +104,7 @@ const ModalMobile = ({ story, onClose }) => {
       const storyURL = `${window.location.origin}/view/${story._id}`;
       await navigator.clipboard.writeText(storyURL);
       toast.success("Link Copied to clipboard", {
-        style: {position: "relative", top:"10rem", color: "red", fontSize: "1.5rem"}
+        style: { position: "relative", top: "10rem", color: "red", fontSize: "1.5rem" }
       });
 
     } catch (error) {
@@ -165,7 +176,7 @@ const ModalMobile = ({ story, onClose }) => {
               alt="like--v1"
               onClick={handleLiked}
             />
-            <p>{story.totalLikes}</p>
+            {/* <p>{story.totalLikes}</p> */}
           </div>
         </div>
       </div>

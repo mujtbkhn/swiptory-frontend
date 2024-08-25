@@ -51,10 +51,14 @@ const ModalDesk = ({ story, onClose }) => {
 
   const handleBookmark = async () => {
     if (userId) {
+      const newBookmarkedStatus = !isBookmarked;
+      setIsBookmarked(newBookmarkedStatus);
+  
       try {
         await bookmark(story?._id);
-        setIsBookmarked(true);
+        // Optionally, you can fetch the updated data here
       } catch (error) {
+        setIsBookmarked(!newBookmarkedStatus); // Revert if API fails
         console.error(error);
       }
     } else {
@@ -62,19 +66,26 @@ const ModalDesk = ({ story, onClose }) => {
       setModal(false);
     }
   };
+  
   const handleLiked = async () => {
     if (userId) {
+      const newLikedStatus = !isLiked;
+      setIsLiked(newLikedStatus);
+      setTotalLikes((prev) => prev + (newLikedStatus ? 1 : -1));
+  
       try {
         await like(story?._id);
-        setIsLiked(true);
+        // Optionally, fetch the updated data here
       } catch (error) {
+        setIsLiked(!newLikedStatus); // Revert if API fails
+        setTotalLikes((prev) => prev - (newLikedStatus ? 1 : -1)); // Revert total likes
         console.error(error);
       }
     } else {
       setErrorState(true);
       setModal(false);
     }
-  };
+  };  
 
   const goToPreviousSlide = () => {
     setCurrentSlideIndex((prevIndex) =>
@@ -177,7 +188,7 @@ const ModalDesk = ({ story, onClose }) => {
                   alt="like--v1"
                   onClick={handleLiked}
                 />
-                <p style={{ zIndex: "1" }}>{story?.totalLikes}</p>
+                {/* <p style={{ zIndex: "1" }}>{story?.totalLikes}</p> */}
               </div>
             </div>
             <div className="next">
