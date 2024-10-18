@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
 import { useEditableContext } from "../contexts/EditableContext";
 import "./Stories/Stories.css";
-import Loader from "../../utils/Loader";
 import Shimmer from "./Shimmer/Shimmer";
 
 const AllCategoryStories = () => {

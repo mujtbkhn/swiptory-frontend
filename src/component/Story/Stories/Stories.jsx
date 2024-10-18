@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { useEditableContext } from "../../contexts/EditableContext";
 import UserStories from "../UserStories";
 import AllCategoryStories from "../AllCategoryStories";
-import Loader from "../../../utils/Loader";
 import Shimmer from "../Shimmer/Shimmer";
 
 const Stories = () => {
