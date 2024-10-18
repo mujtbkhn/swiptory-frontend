@@ -3,7 +3,6 @@ import { fetchStoryByCategory } from "../../apis/story";
 import { useSelector } from "react-redux";
 import StoryCard from "./StoryCard/StoryCard";
 import { useEditableContext } from "../contexts/EditableContext";
-import "./Stories/Stories.css";
 import Shimmer from "./Shimmer/Shimmer";
 
 const AllCategoryStories = () => {
@@ -11,7 +10,7 @@ const AllCategoryStories = () => {
   const [visibleStoriesCount, setVisibleStoriesCount] = useState({});
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { selectedCategory, setSelectedCategory } = useEditableContext();
+  const { selectedCategory } = useEditableContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,18 +46,16 @@ const AllCategoryStories = () => {
   };
 
   useEffect(() => {
-    if (
-      Object.values(stories).flatMap((arr) => arr).length > visibleStoriesCount
-    ) {
+    if (Object.values(stories).flatMap((arr) => arr).length > visibleStoriesCount) {
       setShowMoreBtn(true);
     } else {
       setShowMoreBtn(false);
     }
   }, [stories, visibleStoriesCount]);
 
-  if (stories.length === 0) {
+  if (Object.keys(stories).length === 0) {
     return (
-      <div className="stories_shimmer">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, index) => (
           <Shimmer key={index} />
         ))}
@@ -67,47 +64,27 @@ const AllCategoryStories = () => {
   }
 
   return (
-    <div>
-      {Object.entries(stories).map( //converts the object to array of key - value pairs
-        ([categoryName, categoryStories], categoryIndex) => ( //[key, value], index
-          <div className="category_card_main" key={categoryIndex}>
-            <div
-              className={
-                isSmallScreen ? "category_card__mobile" : "category_card"
-              }
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  margin: " 1rem auto",
-                }}
-              >
-                <h2>Top Stories About {categoryName}</h2>
-              </div>
-              <div
-                className={`story__cards ${isSmallScreen ? "small-screen" : "large-screen"
-                  }`}
-              >
-                {categoryStories
-                  .slice(0, visibleStoriesCount[categoryName])
-                  .map((story, storyIndex) => (
-                    <StoryCard key={storyIndex} story={story} />
-                  ))}
-              </div>
-              <div className="see-more-btn">
-                {categoryStories.length > 4 &&
-                  visibleStoriesCount[categoryName] <
-                  categoryStories.length && (
-                    <button onClick={() => handleShowMoreBtn(categoryName)}>
-                      See More
-                    </button>
-                  )}
-              </div>
-            </div>
+    <div className="space-y-12">
+      {Object.entries(stories).map(([categoryName, categoryStories], categoryIndex) => (
+        <div key={categoryIndex} className="bg-gray-100 rounded-lg p-6">
+          <h2 className="text-2xl font-bold mb-4 text-center">Top Stories About {categoryName}</h2>
+          <div className={`grid ${isSmallScreen ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"} gap-6`}>
+            {categoryStories.slice(0, visibleStoriesCount[categoryName]).map((story, storyIndex) => (
+              <StoryCard key={storyIndex} story={story} />
+            ))}
           </div>
-        )
-      )}
+          {categoryStories.length > 4 && visibleStoriesCount[categoryName] < categoryStories.length && (
+            <div className="mt-6 text-center">
+              <button 
+                onClick={() => handleShowMoreBtn(categoryName)}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              >
+                See More
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 };

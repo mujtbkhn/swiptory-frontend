@@ -1,34 +1,26 @@
 import React, { useEffect, useState } from "react";
-import "./Form.css";
-import { USER_AVATAR } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../../apis/auth";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { USER_AVATAR } from "../../utils/constants";
 import StoryAdd from "../Story/StoryForm/StoryAdd";
 import { useEditableContext } from "../contexts/EditableContext";
-import { Icon } from "react-icons-kit";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import { eye } from "react-icons-kit/feather/eye";
+import { Eye, EyeOff, Menu, X, Bookmark, LogOut, UserPlus, LogIn } from "lucide-react";
 
 const Form = () => {
   const token = localStorage.getItem("token");
   const [register, setRegister] = useState(false);
   const [signIn, setSignIn] = useState(false);
-  const [username, setUsername] = useState(
-    localStorage.getItem("username") || ""
-  );
+  const [username, setUsername] = useState(localStorage.getItem("username") || "");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("password");
-  const [icon, setIcon] = useState(eyeOff);
-  const [hamburger, setHamburger] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isError, setIsError] = useState("");
 
   const [isAddStoryClicked, setIsAddStoryClicked] = useState(false);
   const { isSmallScreen } = useSelector((state) => state.layout);
-  const { errorState, setErrorState, setModal, editable, setEditableState } =
-    useEditableContext();
+  const { errorState, setErrorState, setModal, editable, setEditableState } = useEditableContext();
 
   const navigate = useNavigate();
 
@@ -55,18 +47,6 @@ const Form = () => {
     setSignIn(false);
   };
 
-  const handleCrossBig = () => {
-    setShowMobileMenu(false);
-    setIsAddStoryClicked(false);
-    setRegister(false);
-    setPassword("");
-    setIsError("");
-    setSignIn(false);
-  };
-
-  const handleRegister = () => {
-    setRegister(true);
-  };
   const handleRegisterUser = async (event) => {
     event.preventDefault();
     try {
@@ -101,9 +81,7 @@ const Form = () => {
       console.error(error);
     }
   };
-  const handleSignIn = () => {
-    setSignIn(true);
-  };
+
   const handleSignInUser = async (event) => {
     event.preventDefault();
 
@@ -137,307 +115,190 @@ const Form = () => {
     }
   };
 
-  const handleShowBookmark = () => {
-    navigate("/bookmarks");
-  };
-  const handleAddStory = () => {
-    setIsAddStoryClicked(true);
-    setShowMobileMenu(false);
-  };
-  const handleHamburger = () => {
-    setHamburger((prev) => !prev);
-  };
-  const handleMobileHamburger = () => {
-    setShowMobileMenu(true);
-  };
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    toast.success("Successfully logout");
+    toast.success("Successfully logged out");
     setUsername("");
-    setHamburger(false);
     setShowMobileMenu(false);
     window.location.reload();
   };
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
-
-  const handleHome = () => {
-    navigate("/");
-  };
-
-  const handleToggle = () => {
-    if (type === "password") {
-      setIcon(eye);
-      setType("text");
-    } else {
-      setIcon(eyeOff);
-      setType("password");
-    }
-  };
-
   return (
-    <div>
-      <div className="navbar__main">
-        <div className="navbar__left">
-          <h1 style={{ cursor: "pointer" }} onClick={handleHome}>
-            SwipTory
-          </h1>
-        </div>
+    <div className="bg-white">
+      <nav className="container flex items-center justify-between px-4 py-4 mx-auto">
+        <h1 className="text-2xl font-bold cursor-pointer" onClick={() => navigate("/")}>
+          SwipTory
+        </h1>
         {isSmallScreen ? (
           <>
-            {token ? (
-              <>
-                <img
-                  src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v6.png"
-                  alt=""
-                  className="hamburger"
-                  onClick={handleMobileHamburger}
-                />
-                {showMobileMenu && (
-                  <div className="mobile__menu">
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                        alignItems: "center",
-                        gap: "2rem",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: "1rem" }}>
-                        <img
-                          className="user__avatar"
-                          src={USER_AVATAR}
-                          alt=""
-                        />
-                        <h1>{username}</h1>
-                      </div>
-                      <div className="crossContainer">
-                        <img
-                          src="https://img.icons8.com/ios-filled/50/multiply.png"
-                          alt=""
-                          className="cross__big"
-                          onClick={handleCrossBig}
-                        />
-                      </div>
-                    </div>
-                    <button
-                      className="btn__add__story"
-                      onClick={() => navigate("/your-story")}
-                    >
-                      Your Story
-                    </button>
-                    <button
-                      className="btn__add__story"
-                      onClick={handleAddStory}
-                    >
-                      Add Story
-                    </button>
-                    <button
-                      className="btn__bookmark"
-                      onClick={handleShowBookmark}
-                    >
-                      <img
-                        width="30px"
-                        src="https://img.icons8.com/ios-filled/50/FFFFFF/bookmark-ribbon.png"
-                        alt=""
-                      />
-                      Bookmarks
-                    </button>
-                    <button className="btn__add__story" onClick={handleLogout}>
-                      Logout
-                    </button>
+            <Menu className="cursor-pointer" onClick={() => setShowMobileMenu(true)} />
+            {showMobileMenu && (
+              <div className="fixed inset-0 z-50 bg-black bg-opacity-50">
+                <div className="flex flex-col w-64 h-full p-4 bg-white">
+                  <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-xl font-bold">{token ? username : "Menu"}</h2>
+                    <X className="cursor-pointer" onClick={() => setShowMobileMenu(false)} />
                   </div>
-                )}
-              </>
-            ) : (
-              <>
-                <img
-                  src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v6.png"
-                  alt=""
-                  className="hamburger"
-                  onClick={handleMobileHamburger}
-                />
-
-                {showMobileMenu && (
-                  <div className="mobile__menu">
-                    <div className="crossContainer">
-                      <img
-                        src="https://img.icons8.com/ios-filled/50/multiply.png"
-                        alt=""
-                        className="cross__big"
-                        onClick={handleCrossBig}
-                      />
-                    </div>
-                    <button className="btn__register" onClick={handleSignIn}>
-                      Login
-                    </button>
-                    <button className="btn__register" onClick={handleRegister}>
-                      Register
-                    </button>
-                  </div>
-                )}
-              </>
+                  {token ? (
+                    <>
+                      <button
+                        className="px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+                        onClick={() => navigate("/your-story")}
+                      >
+                        Your Story
+                      </button>
+                      <button
+                        className="px-4 py-2 mb-4 text-white bg-green-500 rounded hover:bg-green-600"
+                        onClick={() => setIsAddStoryClicked(true)}
+                      >
+                        Add Story
+                      </button>
+                      <button
+                        className="flex items-center px-4 py-2 mb-4 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+                        onClick={() => navigate("/bookmarks")}
+                      >
+                        <Bookmark className="mr-2" /> Bookmarks
+                      </button>
+                      <button
+                        className="flex items-center px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                        onClick={handleLogout}
+                      >
+                        <LogOut className="mr-2" /> Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="flex items-center px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+                        onClick={() => setSignIn(true)}
+                      >
+                        <LogIn className="mr-2" /> Login
+                      </button>
+                      <button
+                        className="flex items-center px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+                        onClick={() => setRegister(true)}
+                      >
+                        <UserPlus className="mr-2" /> Register
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
             )}
           </>
         ) : (
-          <>
+          <div className="flex items-center">
             {token ? (
-              <div className="navbar__right">
-                <button className="btn__bookmark" onClick={handleShowBookmark}>
-                  <img
-                    width="30px"
-                    src="https://img.icons8.com/ios-filled/50/FFFFFF/bookmark-ribbon.png"
-                    alt=""
-                  />
-                  Bookmarks
+              <>
+                <button
+                  className="flex items-center px-4 py-2 mr-4 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+                  onClick={() => navigate("/bookmarks")}
+                >
+                  <Bookmark className="mr-2" /> Bookmarks
                 </button>
-                <button className="btn__add__story" onClick={handleAddStory}>
+                <button
+                  className="px-4 py-2 mr-4 text-white bg-green-500 rounded hover:bg-green-600"
+                  onClick={() => setIsAddStoryClicked(true)}
+                >
                   Add Story
                 </button>
-                <img className="user__avatar" src={USER_AVATAR} alt="" />
-                <img
-                  src="https://img.icons8.com/ios-filled/50/1A1A1A/menu--v6.png"
-                  alt=""
-                  className="hamburger"
-                  onClick={handleHamburger}
-                />
-                <div className={hamburger ? "logOut" : "hidden"}>
-                  <h1>{username}</h1>
-                  <button onClick={handleLogout}>Logout</button>
+                <div className="relative group">
+                  <img
+                    src={USER_AVATAR}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                  />
+                  <div className="absolute right-0 hidden w-48 mt-0 bg-white rounded-md shadow-lg group-hover:block">
+                    <div className="py-1">
+                      <h1 className="px-4 py-2 mx-auto text-3xl text-red-700">{username}</h1>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full px-4 py-2 text-xl text-left text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </>
             ) : (
-              <div className="navbar__right">
-                <button className="btn__register" onClick={handleRegister}>
+              <>
+                <button
+                  className="px-4 py-2 mr-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+                  onClick={() => setRegister(true)}
+                >
                   Register Now
                 </button>
-                <button className="btn__signIn" onClick={handleSignIn}>
+                <button
+                  className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+                  onClick={() => setSignIn(true)}
+                >
                   Sign In
                 </button>
-              </div>
+              </>
             )}
-          </>
+          </div>
         )}
-      </div>
+      </nav>
 
-      {register && (
-        <div className="modal-container">
-          <form className={isSmallScreen ? "form__mobile" : "form"}>
-            <div>
-              <div className="crossContainer">
-                <img
-                  src="https://img.icons8.com/ios/50/FA5252/circled-x.png"
-                  alt=""
-                  className="cross"
-                  onClick={handleCross}
+      {(register || signIn) && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md p-8 bg-white rounded-lg">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">
+                {register ? "Register to SwipTory" : "Login to SwipTory"}
+              </h2>
+              <X className="cursor-pointer" onClick={handleCross} />
+            </div>
+            <form onSubmit={register ? handleRegisterUser : handleSignInUser}>
+              <div className="mb-4">
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  placeholder="Enter your Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
-              <h1>Register to SwipTory</h1>
-            </div>
-            <div className="form__fields">
-              <h1>Username</h1>
-              <input
-                type="text"
-                placeholder="Enter your Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="form__fields">
-              <h1>Password</h1>
-              <input
-                type={type}
-                name="password"
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-              />
-              <span
-                className={isSmallScreen ? `eye-span-mobile` : `eye-span-desk`}
-                onClick={handleToggle}
-              >
-                <Icon
-                  className={
-                    isSmallScreen ? `eye-icon-mobile` : `eye-icon-desk`
-                  }
-                  icon={icon}
-                  size={25}
+              <div className="relative mb-4">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  placeholder="Enter your Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-              </span>
-            </div>
-            {isError && (
-              <p style={{ color: "red", margin: "0 auto" }}>{isError}</p>
-            )}
-            <div className="form__btn">
-              <button onClick={handleRegisterUser}>Register</button>
-            </div>
-          </form>
-        </div>
-      )}
-      {signIn && (
-        <div className="modal-container">
-          <form className={isSmallScreen ? "form__mobile" : "form"}>
-            <div>
-              <div className="crossContainer">
-                <img
-                  src="https://img.icons8.com/ios/50/FA5252/circled-x.png"
-                  alt=""
-                  className="cross"
-                  onClick={handleCross}
-                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm leading-5"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff className="w-6 h-6 text-gray-500" /> : <Eye className="w-6 h-6 text-gray-500" />}
+                </button>
               </div>
-              <h1>Login to SwipTory</h1>
-            </div>
-            <div className="form__fields">
-              <h1>Username</h1>
-              <input
-                type="text"
-                placeholder="Enter your Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="form__fields">
-              <h1>Password</h1>
-              <input
-                type={type}
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                style={{ position: "relative" }}
-              />
-              <span
-                className={isSmallScreen ? `eye-span-mobile` : `eye-span-desk`}
-                onClick={handleToggle}
+              {isError && <p className="mb-4 text-sm text-red-500">{isError}</p>}
+              <button
+                type="submit"
+                className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                <Icon
-                  className={
-                    isSmallScreen ? `eye-icon-mobile` : `eye-icon-desk`
-                  }
-                  icon={icon}
-                  size={25}
-                />
-              </span>
-            </div>
-            {isError && (
-              <p style={{ color: "red", margin: "0 auto" }}>{isError}</p>
-            )}
-            <div className="form__btn">
-              <button onClick={handleSignInUser}>Log In</button>
-            </div>
-          </form>
+                {register ? "Register" : "Log In"}
+              </button>
+            </form>
+          </div>
         </div>
       )}
+
       {isAddStoryClicked && (
-        <div className="modal-container">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <StoryAdd onCloseModal={handleCross} />
         </div>
       )}

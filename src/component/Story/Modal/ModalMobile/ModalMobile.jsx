@@ -123,64 +123,59 @@ const ModalMobile = ({ story, onClose }) => {
   }, []);
 
   return (
-    <>
-      <div className="modal-overlay">
-        <div className="slide">
-          <div>
-            <ProgressBar slides={slides.length} iteration={currentSlideIndex} />
-          </div>
-          <div className="story__top">
-            <img
-              className="story__cross"
-              src={cross}
-              alt="multiply"
-              onClick={onClose}
-            />{" "}
-            <img
-              className="story__share"
-              src={share}
-              alt="share"
-              onClick={handleView}
-            />
-          </div>
-          <div className="prev1" onClick={goToPreviousSlide}></div>
-          <div className="image-overlay" />
+    <div className="fixed inset-0 z-50 bg-black">
+      <div className="relative h-full w-full">
+        <ProgressBar slides={slides.length} iteration={currentSlideIndex} />
+
+        <div className="absolute top-4 left-4 right-4 flex justify-between z-20">
+          <button onClick={onClose}>
+            <img src={cross} alt="Close" className="w-8 h-8" />
+          </button>
+          <button onClick={handleView}>
+            <img src={share} alt="Share" className="w-8 h-8" />
+          </button>
+        </div>
+
+        <div className="h-full w-full" onClick={goToNextSlide}>
           <img
             src={slides[currentSlideIndex].imageUrl}
             alt={`Slide ${currentSlideIndex + 1}`}
-            className="main__image"
+            className="h-full w-full object-cover"
           />
-          <div className="next1" onClick={goToNextSlide}></div>
-          <div className="slide__content">
-            <h2>{slides[currentSlideIndex].title}</h2>
-            <p>{slides[currentSlideIndex].description}</p>
-          </div>
-          <div className="story__bottom">
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-60"></div>
+
+        <div className="absolute bottom-20 left-4 right-4 text-white">
+          <h2 className="text-2xl font-bold mb-2">{slides[currentSlideIndex].title}</h2>
+          <p className="text-sm">{slides[currentSlideIndex].description}</p>
+        </div>
+
+        <div className="absolute bottom-4 left-4 right-4 flex justify-between">
+          <button onClick={handleBookmark}>
             <img
-              className="story__bookmark"
-              src={
-                isBookmarked
-                  ? "https://img.icons8.com/ios-filled/50/228BE6/bookmark-ribbon.png"
-                  : "https://img.icons8.com/ios-filled/50/FFFFFF/bookmark-ribbon.png"
+              src={isBookmarked
+                ? "https://img.icons8.com/ios-filled/50/228BE6/bookmark-ribbon.png"
+                : "https://img.icons8.com/ios-filled/50/FFFFFF/bookmark-ribbon.png"
               }
-              alt="bookmark-ribbon"
-              onClick={handleBookmark}
+              alt="Bookmark"
+              className="w-8 h-8"
             />
+          </button>
+          <button onClick={handleLiked} className="flex items-center">
             <img
-              className="story__liked"
-              src={
-                isLiked
-                  ? "https://img.icons8.com/ios-filled/50/FF0000/like--v1.png"
-                  : "https://img.icons8.com/ios-filled/50/FFFFFF/like--v1.png"
+              src={isLiked
+                ? "https://img.icons8.com/ios-filled/50/FF0000/like--v1.png"
+                : "https://img.icons8.com/ios-filled/50/FFFFFF/like--v1.png"
               }
-              alt="like--v1"
-              onClick={handleLiked}
+              alt="Like"
+              className="w-8 h-8 mr-2"
             />
-            {/* <p>{story.totalLikes}</p> */}
-          </div>
+            <span className="text-white">{totalLikes}</span>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

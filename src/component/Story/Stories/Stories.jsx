@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Stories.css";
 import { fetchStoryByCategory } from "../../../apis/story";
 import StoryCard from "../StoryCard/StoryCard";
 import { useSelector } from "react-redux";
@@ -13,7 +12,6 @@ const Stories = () => {
   const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
   const { selectedCategory } = useEditableContext();
-
   const { isSmallScreen } = useSelector((state) => state.layout);
 
   useEffect(() => {
@@ -23,10 +21,7 @@ const Stories = () => {
         if (Array.isArray(fetchedStories)) {
           setStories(fetchedStories);
         } else {
-          console.log(
-            "Error: Invalid data format returned from API",
-            fetchedStories
-          );
+          console.log("Error: Invalid data format returned from API", fetchedStories);
         }
       } catch (error) {
         console.error("Error fetching stories:", error);
@@ -50,7 +45,7 @@ const Stories = () => {
 
   if (stories.length === 0 && selectedCategory !== "all") {
     return (
-      <div className="stories_shimmer">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, index) => (
           <Shimmer key={index} />
         ))}
@@ -59,42 +54,29 @@ const Stories = () => {
   }
 
   return (
-    <>
+    <div className="space-y-8">
       {!isSmallScreen && selectedCategory === "all" && (
         <UserStories />
       )}
       {selectedCategory === "all" && <AllCategoryStories />}
       {selectedCategory !== "all" && (
-        <div className="story_main_card">
-          <div className="category_card_main">
-            <div
-              className={
-                isSmallScreen ? "category_card__mobile" : "category_card"
-              }
-            >
-              <h2>Top Stories from {selectedCategory}</h2>
-              <div
-                className={`story__cards ${isSmallScreen ? "small-screen" : "large-screen"
-                  }`}
-              >
-                {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
-                  <StoryCard
-                    key={index}
-                    className="story__card"
-                    story={story}
-                  />
-                ))}
-              </div>
-              <div className="see-more-btn">
-                {showMoreBtn && (
-                  <button onClick={handleShowMoreBtn}> See More</button>
-                )}
-              </div>
-            </div>
+        <div className="bg-gray-100 rounded-lg p-6">
+          <h2 className="text-2xl font-bold mb-4">Top Stories from {selectedCategory}</h2>
+          <div className={`grid ${isSmallScreen ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"} gap-6`}>
+            {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
+              <StoryCard key={index} story={story} />
+            ))}
           </div>
+          {showMoreBtn && (
+            <div className="mt-6 text-center">
+              <button onClick={handleShowMoreBtn} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                See More
+              </button>
+            </div>
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

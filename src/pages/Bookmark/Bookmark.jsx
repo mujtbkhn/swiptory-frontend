@@ -30,41 +30,40 @@ const Bookmark = () => {
   };
 
   useEffect(() => {
-    if (stories?.length > visibleStoriesCount) {
-      setShowMoreBtn(true);
-    } else {
-      setShowMoreBtn(false);
-    }
+    setShowMoreBtn(stories?.length > visibleStoriesCount);
   }, [stories?.length, visibleStoriesCount]);
 
   return (
-    <div>
-      <Form />
+    <div className="container px-4 mx-auto">
+      <div className="relative z-50">
+        <Form />
+      </div>
       {loading ? (
-        <div className="bookmark">
-          {/* Dynamically generate shimmer UIs equal to the number of expected bookmarks */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {[...Array(4)].map((_, index) => (
             <Shimmer key={index} />
           ))}
         </div>
       ) : stories?.length > 0 ? (
         <>
-          <h1>Your Bookmarks</h1>
-          <div className="bookmark__main">
-            <div className="bookmark">
+          <h1 className="my-8 text-3xl font-bold text-center">Your Bookmarks</h1>
+          <div className="relative z-0">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {stories.slice(0, visibleStoriesCount)?.map((story, index) => (
                 <StoryCard key={index} story={story} />
               ))}
             </div>
-            <div className="see-more-btn">
-              {showMoreBtn && (
-                <button onClick={handleShowMoreBtn}> See More</button>
-              )}
-            </div>
+            {showMoreBtn && (
+              <div className="mt-8 text-center see-more-btn">
+                <button onClick={handleShowMoreBtn} className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                  See More
+                </button>
+              </div>
+            )}
           </div>
         </>
       ) : (
-        <h1>No Bookmarks Found</h1>
+        <h1 className="my-8 text-3xl font-bold text-center">No Bookmarks Found</h1>
       )}
     </div>
   );
